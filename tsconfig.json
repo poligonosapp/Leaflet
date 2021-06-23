@@ -2,9 +2,9 @@
   "compileOnSave": false,
   "exclude": ["node_modules"],
   "include": [
-    "docs/**/*ts",
     "src/**/*",
-    "**/*.tsconfig.eslint.json"
+    "./*.tsconfig.eslint.json",
+    "docs/**/*ts"
   ],
   "compilerOptions": {
     "paths": {
