@@ -1,1 +1,1 @@
-kubectl exec leaflet --date
+kubectl exec poligonosapp --date
