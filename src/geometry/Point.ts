@@ -24,11 +24,16 @@ import {isArray, formatNum} from '../core/Util';
  * can't be added to it with the `include` function.
  */
 
-export function Point(x:integer, y:integer, round:integer) {
+// let x:number;
+// let y:number;
+
+export function Point(x:number, y:number, round:number):number {
 	// @property x: Number; The `x` coordinate of the point
-	this.x = (round ? Math.round(x) : x);
+	x = (round ? Math.round(x) : x);
 	// @property y: Number; The `y` coordinate of the point
-	this.y = (round ? Math.round(y) : y);
+	y = (round ? Math.round(y) : y);
+
+	return round;
 }
 
 const trunc = Math.trunc || function (v) {
@@ -205,7 +210,7 @@ Point.prototype = {
 // @alternative
 // @factory L.point(coords: Object)
 // Expects a plain object of the form `{x: Number, y: Number}` instead.
-export function toPoint(x: any, y: integer, round: integer) {
+export function toPoint(x: [], y: number, round: number):Point|[] {
 	if (x instanceof Point) {
 		return x;
 	}

@@ -50,7 +50,7 @@ export const CircleMarker = Path.extend({
 
 	// @method setRadius(radius: Number): this
 	// Sets the radius of a circle marker. Units are in pixels.
-	setRadius: function (radius) {
+	setRadius: function (radius: []) {
 		this.options.radius = this._radius = radius;
 		return this.redraw();
 	},

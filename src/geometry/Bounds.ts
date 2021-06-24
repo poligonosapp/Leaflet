@@ -100,7 +100,7 @@ Bounds.prototype = {
 	// @alternative
 	// @method contains(point: Point): Boolean
 	// Returns `true` if the rectangle contains the given point.
-	contains: function (obj) {
+	contains: function (obj:number) {
 		const min, max;
 
 		if (typeof obj[0] === 'number' || obj instanceof Point) {

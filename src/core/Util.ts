@@ -6,10 +6,10 @@
 
 // @function extend(dest: Object, src?: Object): Object
 // Merges the properties of the `src` object (or multiple objects) into `dest` object and returns the latter. Has an `L.extend` shortcut.
-export function extend(dest) {
-	const i, j, len, src;
+export function extend(dest:[]):[] {
+	const i, j, len, src:[];
 
-	for (const j in arguments.length) {
+	for (j in arguments.length) {
 		src = arguments[j];
 		for (i in src) {
 			dest[i] = src[i];
@@ -22,7 +22,7 @@ export function extend(dest) {
 // Compatibility polyfill for [Object.create](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/create)
 export const create = Object.create || (function () {
 	function F() {}
-	return function (proto) {
+	return function (proto:object) {
 		F.prototype = proto;
 		return new F();
 	};
