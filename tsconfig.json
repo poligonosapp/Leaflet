@@ -1,8 +1,10 @@
 {
-  "compileOnSave": false,
+  "compileOnSave": true,
+  "extends": "@tsconfig/node14/tsconfig.json",
   "exclude": ["node_modules"],
   "include": [
     "src/**/*",
+    "gulpfile.ts",
     "./*.tsconfig.eslint.json",
     "docs/**/*ts"
   ],

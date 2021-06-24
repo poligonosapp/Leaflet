@@ -1,4 +1,6 @@
-export function decrescente(vetor:number[]):number[]{
+import nodemon from 'nodemon';
+
+export function decrescente(vetor: number[]): number[]{
 
 try{
     for (let i in vetor.length){
@@ -11,15 +13,16 @@ try{
     vetor.sort();
 
     for(let i in vetor.length){
-
-        console.log(vetor[i]);
-
-    }
-
-    for(let i in vetor.length){
         vetor[i] = (-1)*vetor[i];
     }
-}finally {
+} finally {
+    
+    for (let i in vetor.length) {
+
+        nodemon.logger(vetor[i]);
+
+    }
+
     return vetor;
 }
 
