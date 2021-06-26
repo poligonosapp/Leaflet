@@ -31,7 +31,7 @@ import * as LineUtil from '../geometry/LineUtil';
  * ```
  */
 
-export var GeoJSON = FeatureGroup.extend({
+export let GeoJSON = FeatureGroup.extend({
 
 	/* @section
 	 * @aka GeoJSON options

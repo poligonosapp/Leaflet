@@ -6,27 +6,35 @@
 
 // @function extend(dest: Object, src?: Object): Object
 // Merges the properties of the `src` object (or multiple objects) into `dest` object and returns the latter. Has an `L.extend` shortcut.
-export function extend(dest:[]):[] {
-	const i, j, len, src:[];
+export function extend(dest: Record<string, number>[]): Record<string, number>[] {
 
-	for (j in arguments.length) {
-		src = arguments[j];
-		for (i in src) {
+	const i:number, j:number, len:number, src: Record<string, number>[];
+
+	for (j in dest['arguments'].length) {
+		
+        for (i in src) {
+            // src[i] = dest[j];
+
 			dest[i] = src[i];
-		}
-	}
-	return dest;
+			
+        }
+    }
+    return dest
 }
 
 // @function create(proto: Object, properties?: Object): Object
 // Compatibility polyfill for [Object.create](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/create)
-export const create = Object.create || (function () {
-	function F() {}
-	return function (proto:object) {
-		F.prototype = proto;
-		return new F();
-	};
-})();
+export const create =
+	Object.create ||
+	(function (): Record<string, unknown> {
+		function F(): Record<string, unknown> { }
+		return function (
+			proto: Record<string, unknown>
+		): Record<string, unknown> {
+			F.prototype = proto
+			return new F()
+		}
+	})();
 
 // @function bind(fn: Function, …): Function
 // Returns a new function bound to the arguments passed, like [Function.prototype.bind](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Function/bind).
@@ -117,13 +125,13 @@ export function formatNum(num, digits) {
 
 // @function trim(str: String): String
 // Compatibility polyfill for [String.prototype.trim](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String/Trim)
-export function trim(str) {
+export function trim(str:string):string {
 	return str.trim ? str.trim() : str.replace(/^\s+|\s+$/g, '');
 }
 
 // @function splitWords(str: String): String[]
 // Trims and splits the string on whitespace and returns the array of parts.
-export function splitWords(str) {
+export function splitWords(str:string):string {
 	return trim(str).split(/\s+/);
 }
 

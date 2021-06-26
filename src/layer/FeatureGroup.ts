@@ -23,7 +23,7 @@ import {LatLngBounds} from '../geo/LatLngBounds';
  * ```
  */
 
-export var FeatureGroup = LayerGroup.extend({
+export let FeatureGroup = LayerGroup.extend({
 
 	addLayer: function (layer) {
 		if (this.hasLayer(layer)) {

@@ -22,7 +22,7 @@ This guide lists a number of best practices for publishing a Leaflet plugin that
 
 ## Presentation
 
-leaflet fork
+leaflet plugin fork
 with typescript
 with snyk
 with Angular 12
