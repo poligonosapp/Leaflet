@@ -1,5 +1,6 @@
 import { Class } from "./Class";
 import * as Util from './Util';
+import { get } from 'src/dom/DomUtil';
 
 /*
  * @class Evented
@@ -38,7 +39,7 @@ export const Events = {
 Consider using `Record<string, unknown>` instead, as it allows you to more easily inspect and use the keys.eslint@typescript-eslint/ban-types)
 	 */
     on: function (
-        types: Record<string, unknown>,
+        types: Record<string, number>[],
         fn: Record<string, unknown>,
         context: Record<string, unknown>
     ): Record<string, unknown> {
@@ -47,14 +48,15 @@ Consider using `Record<string, unknown>` instead, as it allows you to more easil
             for (const type in types) {
                 // we don't process space-separated events here for performance;
                 // it's a hot path since Layer uses the on(obj) syntax
-                this._on(type, types[type], fn)
+				this._on(type, types[type], fn);
             }
         } else {
             // types can be a string of space-separated words
-            types = Util.splitWords(types)
+			// types = Util.splitWords(types.toString());
 
-            for (const i in types.length) {
-                this._on(types[i], fn, context)
+			for (const i in types.length) {
+				types[i] = Util.splitWords(types.toString())
+				this._on(types[i], fn, context);
             }
         }
 
@@ -84,14 +86,11 @@ Consider using `Record<string, unknown>` instead, as it allows you to more easil
             for (const type in types) {
                 this._off(type, types[type], fn)
             }
-		} else {
-			
-			types = Util.splitWords(types);
+        } else {
+            types = Util.splitWords(types)
 
-			for (const i in types.length) {
-				
-				this._off(types[i], fn, context);
-
+            for (const i in types.length) {
+                this._off(types[i], fn, context)
             }
         }
 
@@ -103,25 +102,23 @@ Consider using `Record<string, unknown>` instead, as it allows you to more easil
         type: Record<string, unknown>,
         fn: Record<string, unknown>,
         context: Record<string, unknown>
-	): Record<string, unknown> {
-		
-		this._events = this._events || {};
+    ): Record<string, unknown> {
+        this._events = this._events || {}
 
         /* get/init listeners for type */
-		const typeListeners = this._events[type];
+        const typeListeners = this._events[type]
 
-		if (!typeListeners) {
-			
-			typeListeners = [];
-			this._events[type] = typeListeners;
+        if (!typeListeners) {
+            typeListeners = []
+            this._events[type] = typeListeners
         }
 
         if (context === this) {
             // Less memory footprint.
-			context = undefined;
+            context = undefined
         }
-		const newListener = { fn: fn, ctx: context },
-			listeners = typeListeners;
+        const newListener = { fn: fn, ctx: context },
+            listeners = typeListeners
 
         // check if fn already there
         for (const i = 0, len = listeners.length; i < len; i++) {
@@ -227,10 +224,11 @@ Consider using `Record<string, unknown>` instead, as it allows you to more easil
     // @method listens(type: String): Boolean
     // Returns `true` if a particular event type has any listeners attached to it.
     listens: function (
-        type: Record<string, unknown>,
-        propagate: Record<string, unknown>
-    ): Record<string, unknown> {
+        type: Record<string, number>,
+        propagate: Record<string, number>
+    ): Record<string, number> {
         const listeners = this._events && this._events[type]
+
         if (listeners && listeners.length) {
             return true
         }
@@ -249,16 +247,16 @@ Consider using `Record<string, unknown>` instead, as it allows you to more easil
     // @method once(…): this
     // Behaves as [`on(…)`](#evented-on), except the listener will only get fired once and then removed.
     once: function (
-        types: Record<string, unknown>,
-        fn: Record<string, unknown>,
-        context: Record<string, unknown>
-    ): Record<string, unknown> {
-        if (typeof types === 'object') {
-            for (const type in types) {
-                this.once(type, types[type], fn)
-            }
-            return this
+        types: Record<string, number>,
+        fn: Record<string, number>,
+        context: Record<string, number>
+    ): Record<string, number> {
+        //if (typeof types === typeof Record<string, number>) {
+        for (const type in types) {
+            this.once(type, types[type], fn)
         }
+        return this
+        //}
 
         const handler = Util.bind(function () {
             this.off(types, fn, context).off(types, handler, context)

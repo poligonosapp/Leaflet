@@ -1,4 +1,18 @@
+// import Polygon from './src/layer/GeoJSON';
+// const { polygons: Record<string[], [] > [] } = require('./polygons.geojson');
+
 describe('Util', function () {
+
+	describe("should dictionary type Record<string,number>[] GeoJSON", function () {
+
+		// add item list
+		// remove item list
+		// get list size
+		// get next item
+		// get previous item[i-1]
+	}
+	); //end describe should record geojson
+
 	describe('#extend', function () {
 		let a;
 

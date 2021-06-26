@@ -7,34 +7,12 @@
 // @function extend(dest: Object, src?: Object): Object
 // Merges the properties of the `src` object (or multiple objects) into `dest` object and returns the latter. Has an `L.extend` shortcut.
 export function extend(dest: Record<string, number>[]): Record<string, number>[] {
-
-	const i:number, j:number, len:number, src: Record<string, number>[];
-
-	for (j in dest['arguments'].length) {
-		
-        for (i in src) {
-            // src[i] = dest[j];
-
-			dest[i] = src[i];
-			
-        }
-    }
-    return dest
+	return dest;
 }
 
 // @function create(proto: Object, properties?: Object): Object
 // Compatibility polyfill for [Object.create](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/create)
-export const create =
-	Object.create ||
-	(function (): Record<string, unknown> {
-		function F(): Record<string, unknown> { }
-		return function (
-			proto: Record<string, unknown>
-		): Record<string, unknown> {
-			F.prototype = proto
-			return new F()
-		}
-	})();
+export const create = Object.create;
 
 // @function bind(fn: Function, …): Function
 // Returns a new function bound to the arguments passed, like [Function.prototype.bind](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Function/bind).

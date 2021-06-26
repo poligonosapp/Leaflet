@@ -32,134 +32,145 @@ import * as LineUtil from '../geometry/LineUtil';
  */
 
 export let GeoJSON = FeatureGroup.extend({
+    /* @section
+     * @aka GeoJSON options
+     *
+     * @option pointToLayer: Function = *
+     * A `Function` defining how GeoJSON points spawn Leaflet layers. It is internally
+     * called when data is added, passing the GeoJSON point feature and its `LatLng`.
+     * The default is to spawn a default `Marker`:
+     * ```tsc
+     * function(geoJsonPoint, latlng) {
+     * 	return L.marker(latlng);
+     * }
+     * ```
+     *
+     * @option style: Function = *
+     * A `Function` defining the `Path options` for styling GeoJSON lines and polygons,
+     * called internally when data is added.
+     * The default value is to not override any defaults:
+     * ```tsc
+     * function (geoJsonFeature) {
+     * 	return {}
+     * }
+     * ```
+     *
+     * @option onEachFeature: Function = *
+     * A `Function` that will be called once for each created `Feature`, after it has
+     * been created and styled. Useful for attaching events and popups to features.
+     * The default is to do nothing with the newly created layers:
+     * ```tsc
+     * function (feature, layer) {}
+     * ```
+     *
+     * @option filter: Function = *
+     * A `Function` that will be used to decide whether to include a feature or not.
+     * The default is to include all features:
+     * ```tsc
+     * function (geoJsonFeature) {
+     * 	return true;
+     * }
+     * ```
+     * Note: dynamically changing the `filter` option will have effect only on newly
+     * added data. It will _not_ re-evaluate already included features.
+     *
+     * @option coordsToLatLng: Function = *
+     * A `Function` that will be used for converting GeoJSON coordinates to `LatLng`s.
+     * The default is the `coordsToLatLng` static method.
+     *
+     * @option markersInheritOptions: Boolean = false
+     * Whether default Markers for "Point" type Features inherit from group options.
+     */
 
-	/* @section
-	 * @aka GeoJSON options
-	 *
-	 * @option pointToLayer: Function = *
-	 * A `Function` defining how GeoJSON points spawn Leaflet layers. It is internally
-	 * called when data is added, passing the GeoJSON point feature and its `LatLng`.
-	 * The default is to spawn a default `Marker`:
-	 * ```tsc
-	 * function(geoJsonPoint, latlng) {
-	 * 	return L.marker(latlng);
-	 * }
-	 * ```
-	 *
-	 * @option style: Function = *
-	 * A `Function` defining the `Path options` for styling GeoJSON lines and polygons,
-	 * called internally when data is added.
-	 * The default value is to not override any defaults:
-	 * ```tsc
-	 * function (geoJsonFeature) {
-	 * 	return {}
-	 * }
-	 * ```
-	 *
-	 * @option onEachFeature: Function = *
-	 * A `Function` that will be called once for each created `Feature`, after it has
-	 * been created and styled. Useful for attaching events and popups to features.
-	 * The default is to do nothing with the newly created layers:
-	 * ```tsc
-	 * function (feature, layer) {}
-	 * ```
-	 *
-	 * @option filter: Function = *
-	 * A `Function` that will be used to decide whether to include a feature or not.
-	 * The default is to include all features:
-	 * ```tsc
-	 * function (geoJsonFeature) {
-	 * 	return true;
-	 * }
-	 * ```
-	 * Note: dynamically changing the `filter` option will have effect only on newly
-	 * added data. It will _not_ re-evaluate already included features.
-	 *
-	 * @option coordsToLatLng: Function = *
-	 * A `Function` that will be used for converting GeoJSON coordinates to `LatLng`s.
-	 * The default is the `coordsToLatLng` static method.
-	 *
-	 * @option markersInheritOptions: Boolean = false
-	 * Whether default Markers for "Point" type Features inherit from group options.
-	 */
+    initialize: function (
+        geojson: Record<string, number>[],
+        options
+    ): Record<string, number>[] {
+        Util.setOptions(this, options)
 
-	initialize: function (geojson, options) {
-		Util.setOptions(this, options);
+        this._layers = {}
 
-		this._layers = {};
+        if (geojson) {
+            this.addData(geojson)
+        }
+    },
 
-		if (geojson) {
-			this.addData(geojson);
-		}
-	},
+    // @method addData( <GeoJSON> data ): this
+    // Adds a GeoJSON object to the layer.
+    addData: function (geojson) {
+        let features = Util.isArray(geojson) ? geojson : geojson.features,
+            i,
+            len,
+            feature
 
-	// @method addData( <GeoJSON> data ): this
-	// Adds a GeoJSON object to the layer.
-	addData: function (geojson) {
-		let features = Util.isArray(geojson) ? geojson : geojson.features,
-		    i, len, feature;
+        if (features) {
+            for (i = 0, len = features.length; i < len; i++) {
+                // only add this if geometry or geometries are set and not null
+                feature = features[i]
+                if (
+                    feature.geometries ||
+                    feature.geometry ||
+                    feature.features ||
+                    feature.coordinates
+                ) {
+                    this.addData(feature)
+                }
+            }
+            return this
+        }
 
-		if (features) {
-			for (i = 0, len = features.length; i < len; i++) {
-				// only add this if geometry or geometries are set and not null
-				feature = features[i];
-				if (feature.geometries || feature.geometry || feature.features || feature.coordinates) {
-					this.addData(feature);
-				}
-			}
-			return this;
-		}
+        const options = this.options
 
-		const options = this.options;
+        if (options.filter && !options.filter(geojson)) {
+            return this
+        }
 
-		if (options.filter && !options.filter(geojson)) { return this; }
+        const layer = geometryToLayer(geojson, options)
+        if (!layer) {
+            return this
+        }
+        layer.feature = asFeature(geojson)
 
-		const layer = geometryToLayer(geojson, options);
-		if (!layer) {
-			return this;
-		}
-		layer.feature = asFeature(geojson);
+        layer.defaultOptions = layer.options
+        this.resetStyle(layer)
 
-		layer.defaultOptions = layer.options;
-		this.resetStyle(layer);
+        if (options.onEachFeature) {
+            options.onEachFeature(geojson, layer)
+        }
 
-		if (options.onEachFeature) {
-			options.onEachFeature(geojson, layer);
-		}
+        return this.addLayer(layer)
+    },
 
-		return this.addLayer(layer);
-	},
+    // @method resetStyle( <Path> layer? ): this
+    // Resets the given vector layer's style to the original GeoJSON style, useful for resetting style after hover events.
+    // If `layer` is omitted, the style of all features in the current layer is reset.
+    resetStyle: function (layer) {
+        if (layer === undefined) {
+            return this.eachLayer(this.resetStyle, this)
+        }
+        // reset any custom styles
+        layer.options = Util.extend({}, layer.defaultOptions)
+        this._setLayerStyle(layer, this.options.style)
+        return this
+    },
 
-	// @method resetStyle( <Path> layer? ): this
-	// Resets the given vector layer's style to the original GeoJSON style, useful for resetting style after hover events.
-	// If `layer` is omitted, the style of all features in the current layer is reset.
-	resetStyle: function (layer) {
-		if (layer === undefined) {
-			return this.eachLayer(this.resetStyle, this);
-		}
-		// reset any custom styles
-		layer.options = Util.extend({}, layer.defaultOptions);
-		this._setLayerStyle(layer, this.options.style);
-		return this;
-	},
+    // @method setStyle( <Function> style ): this
+    // Changes styles of GeoJSON vector layers with the given style function.
+    setStyle: function (style) {
+        return this.eachLayer(function (layer) {
+            this._setLayerStyle(layer, style)
+        }, this)
+    },
 
-	// @method setStyle( <Function> style ): this
-	// Changes styles of GeoJSON vector layers with the given style function.
-	setStyle: function (style) {
-		return this.eachLayer(function (layer) {
-			this._setLayerStyle(layer, style);
-		}, this);
-	},
-
-	_setLayerStyle: function (layer, style) {
-		if (layer.setStyle) {
-			if (typeof style === 'function') {
-				style = style(layer.feature);
-			}
-			layer.setStyle(style);
-		}
-	}
-});
+    _setLayerStyle: function (layer, style) {
+        if (layer.setStyle) {
+            if (typeof style === 'function') {
+                style = style(layer.feature)
+            }
+            layer.setStyle(style)
+        }
+    },
+})
 
 // @section
 // There are several static functions which can be called without instantiating L.GeoJSON:
@@ -168,7 +179,7 @@ export let GeoJSON = FeatureGroup.extend({
 // Creates a `Layer` from a given GeoJSON feature. Can use a custom
 // [`pointToLayer`](#geojson-pointtolayer) and/or [`coordsToLatLng`](#geojson-coordstolatlng)
 // functions if provided as options.
-export function geometryToLayer(geojson, options) {
+export function geometryToLayer(geojson:GeoJSON, options) {
 
 	let geometry = geojson.type === 'Feature' ? geojson.geometry : geojson,
 	    coords = geometry ? geometry.coordinates : null,

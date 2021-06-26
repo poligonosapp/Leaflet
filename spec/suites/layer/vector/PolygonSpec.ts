@@ -1,4 +1,22 @@
+ import Polygon from './src/layer/vector/Polygon';
+
+// import Polygon from './src/layer/GeoJSON';
+const polygons:Polygon[] = require('./polygons.geojson');
+
 describe('Polygon', function () {
+
+	describe("should dictionary type Record<string,number>[] GeoJSON", function () {
+
+		const dictionary : Record < string, number, Polygon > [] = polygons;
+
+		// add item list
+		// remove item list
+		// get list size
+		// get next item
+		// get previous item[i-1]
+	}
+	); //end describe should record geojson
+
 	describe("#initialize", function () {
 		it("should never be flat", function () {
 			const latLngs = [[1, 2], [3, 4]];
