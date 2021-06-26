@@ -1,5 +1,5 @@
 import {Polygon} from './Polygon';
-import {toLatLngBounds} from '../../geo/LatLngBounds';
+import {LatLngBounds, toLatLngBounds} from '../../geo/LatLngBounds';
 
 /*
  * L.Rectangle extends Polygon and creates a rectangle when passed a LatLngBounds object.
@@ -29,7 +29,7 @@ import {toLatLngBounds} from '../../geo/LatLngBounds';
 
 
 export const Rectangle = Polygon.extend({
-	initialize: function (latLngBounds, options) {
+	initialize: function (latLngBounds:LatLngBounds, options) {
 		Polygon.prototype.initialize.call(this, this._boundsToLatLngs(latLngBounds), options);
 	},
 

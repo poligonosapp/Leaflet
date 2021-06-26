@@ -33,11 +33,16 @@ export function bind(fn, obj) {
 
 // @property lastId: Number
 // Last unique ID used by [`stamp()`](#util-stamp)
-export const lastId = 0;
+export let lastId:number = 0;
+
+type ObjectUtil{
+	_leaflet_id:number;
+		// obj:Record<string,number>[];
+};
 
 // @function stamp(obj: Object): Number
 // Returns the unique ID of an object, assigning it one if it doesn't have it.
-export function stamp(obj) {
+export function stamp(obj:ObjectUtil):number {
 	/*eslint-disable */
 	obj._leaflet_id = obj._leaflet_id || ++lastId;
 	return obj._leaflet_id;

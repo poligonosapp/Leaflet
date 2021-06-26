@@ -1,4 +1,5 @@
 import {LatLng, toLatLng} from './LatLng';
+import {Type} from '@angular/compiler';
 
 /*
  * @class LatLngBounds
@@ -30,15 +31,20 @@ import {LatLng, toLatLng} from './LatLng';
  * can't be added to it with the `include` function.
  */
 
-export function LatLngBounds(corner1, corner2) { // (LatLng, LatLng) or (LatLng[])
+//https://www.typescriptlang.org/docs/handbook/2/conditional-types.html
+type Flatten<Type> = Type extends Array<infer Item> ? Item : Type;
+
+export function LatLngBounds(corner1, corner2):Flatten<LatLng, LatLngBounds> { // (LatLng, LatLng) or (LatLng[])
 	if (!corner1) { return; }
 
 	const latlngs = corner2 ? [corner1, corner2] : corner1;
 
-	for (let i = 0, len = latlngs.length; i < len; i++) {
+	for (let i in latlngs.length) {
 		this.extend(latlngs[i]);
 	}
 }
+
+
 
 LatLngBounds.prototype = {
 
@@ -48,7 +54,7 @@ LatLngBounds.prototype = {
 	// @alternative
 	// @method extend(otherBounds: LatLngBounds): this
 	// Extend the bounds to contain the given bounds
-	extend: function (obj) {
+	extend: function (obj:Flatten<LatLng, LatLngBounds>):Flatten<LatLng, LatLngBounds> {
 		let sw = this._southWest,
 		    ne = this._northEast,
 		    sw2, ne2;
@@ -243,7 +249,7 @@ LatLngBounds.prototype = {
 // @alternative
 // @factory L.latLngBounds(latlngs: LatLng[])
 // Creates a `LatLngBounds` object defined by the geographical points it contains. Very useful for zooming the map to fit a particular set of locations with [`fitBounds`](#map-fitbounds).
-export function toLatLngBounds(a, b) {
+export function toLatLngBounds(a:LatLngBounds, b:LatLngBounds):LatLngBounds {
 	if (a instanceof LatLngBounds) {
 		return a;
 	}

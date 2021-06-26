@@ -66,7 +66,7 @@ export var Tooltip = DivOverlay.extend({
 		opacity: 0.9
 	},
 
-	onAdd: function (map) {
+	onAdd: function (map:Map) {
 		DivOverlay.prototype.onAdd.call(this, map);
 		this.setOpacity(this.options.opacity);
 
@@ -85,7 +85,7 @@ export var Tooltip = DivOverlay.extend({
 		}
 	},
 
-	onRemove: function (map) {
+	onRemove: function (map:Map) {
 		DivOverlay.prototype.onRemove.call(this, map);
 
 		// @namespace Map

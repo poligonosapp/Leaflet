@@ -111,7 +111,7 @@ LatLng.prototype = {
 // @factory L.latLng(coords: Object): LatLng
 // Expects an plain object of the form `{lat: Number, lng: Number}` or `{lat: Number, lng: Number, alt: Number}` instead.
 
-export function toLatLng(a, b, c) {
+export function toLatLng(a:LatLng, b, c) {
 	if (a instanceof LatLng) {
 		return a;
 	}

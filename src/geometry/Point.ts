@@ -50,7 +50,7 @@ Point.prototype = {
 
 	// @method add(otherPoint: Point): Point
 	// Returns the result of addition of the current and the given points.
-	add: function (point) {
+	add: function (point:Point) {
 		// non-destructive, returns a new point
 		return this.clone()._add(toPoint(point));
 	},
@@ -210,7 +210,7 @@ Point.prototype = {
 // @alternative
 // @factory L.point(coords: Object)
 // Expects a plain object of the form `{x: Number, y: Number}` instead.
-export function toPoint(x: [], y: number, round: number):Point|[] {
+export function toPoint(x: [], y: number, round: number):Point[] {
 	if (x instanceof Point) {
 		return x;
 	}

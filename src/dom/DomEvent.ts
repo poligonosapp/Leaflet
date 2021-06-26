@@ -48,9 +48,9 @@ const eventsKey = '_leaflet_events';
 // @alternative
 // @function off(el: HTMLElement, eventMap: Object, context?: Object): this
 // Removes a set of type/listener pairs, e.g. `{click: onClick, mousemove: onMouseMove}`
-export function off(obj, types, fn, context) {
+export function off(obj:Record<string,number>[], types:Record<string,number>[], fn:Record<string,number>[], context:Record<string,number>[]):Record<string,number>[] {
 
-	if (typeof types === 'object') {
+	if (typeof types === typeof 'Record<string,number>[]') {
 		for (const type in types) {
 			removeOne(obj, type, types[type], fn);
 		}
@@ -83,7 +83,11 @@ const mouseSubst = {
 	wheel: !('onwheel' in window) && 'mousewheel'
 };
 
-function addOne(obj, type, fn, context) {
+function addOne(obj:Record<string,number>[],
+	type:Record<string,number>[],
+	fn:Record<string,number>[],
+	context:Record<string,number>[]):Record<string,number>[] {
+
 	const id = type + Util.stamp(fn) + (context ? '_' + Util.stamp(context) : '');
 
 	if (obj[eventsKey] && obj[eventsKey][id]) { return this; }

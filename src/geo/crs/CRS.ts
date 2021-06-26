@@ -21,10 +21,10 @@ import * as Util from '../../core/Util';
  * and methods can't be added to them with the `include` function.
  */
 
-export var CRS = {
+export let CRS = {
 	// @method latLngToPoint(latlng: LatLng, zoom: Number): Point
 	// Projects geographical coordinates into pixel coordinates for a given zoom.
-	latLngToPoint: function (latlng, zoom) {
+	latLngToPoint: function (latlng:LatLng, zoom) {
 		const projectedPoint = this.projection.project(latlng),
 		    scale = this.scale(zoom);
 
@@ -44,8 +44,8 @@ export var CRS = {
 	// @method project(latlng: LatLng): Point
 	// Projects geographical coordinates into coordinates in units accepted for
 	// this CRS (e.g. meters for EPSG:3857, for passing it to WMS services).
-	project: function (latlng) {
-		return this.projection.project(latlng);
+	project: function (latlng:LatLng) {
+		return this.projection.project(latlng:LatLng);
 	},
 
 	// @method unproject(point: Point): LatLng
@@ -72,7 +72,7 @@ export var CRS = {
 
 	// @method getProjectedBounds(zoom: Number): Bounds
 	// Returns the projection's bounds scaled and transformed for the provided `zoom`.
-	getProjectedBounds: function (zoom) {
+	getProjectedBounds: function (zoom):Bounds {
 		if (this.infinite) { return null; }
 
 		const b = this.projection.bounds,

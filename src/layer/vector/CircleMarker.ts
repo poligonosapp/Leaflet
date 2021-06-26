@@ -24,7 +24,7 @@ export const CircleMarker = Path.extend({
 		radius: 10
 	},
 
-	initialize: function (latlng, options) {
+	initialize: function (latlng:number, options:[]) {
 		Util.setOptions(this, options);
 		this._latlng = toLatLng(latlng);
 		this._radius = this.options.radius;

@@ -51,13 +51,14 @@ import * as PolyUtil from '../../geometry/PolyUtil';
  * ```
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 export const Polygon = Polyline.extend({
 
 	options: {
 		fill: true
 	},
 
-	isEmpty: function () {
+	isEmpty: function ():boolean {
 		return !this._latlngs.length || !this._latlngs[0].length;
 	},
 
@@ -67,9 +68,10 @@ export const Polygon = Polyline.extend({
 			throw new Error('Must add layer to map before using getCenter()');
 		}
 
-		const i, j, p1, p2, f, area, x, y, center,
-		    points = this._rings[0],
-		    len = points.length;
+		let i, j, p1:number[], p2:number[], f, area, x, y, center,
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+		    points:number[] = this._rings[0],
+		    len:number = points.length;
 
 		if (!len) { return null; }
 
