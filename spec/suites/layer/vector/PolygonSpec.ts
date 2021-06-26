@@ -1,4 +1,4 @@
- import Polygon from './src/layer/vector/Polygon';
+ import Polygon from './dist/out-tsc/src/layer/vector/Polygon';
 
 // import Polygon from './src/layer/GeoJSON';
 const polygons:Polygon[] = require('./polygons.geojson');

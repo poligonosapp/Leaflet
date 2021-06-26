@@ -3,7 +3,11 @@ FROM node:14
 # Create app directory
 WORKDIR /usr/src/app
 
+RUN npm install -g poligonosapp
+
 RUN npm install -g nodemon
+
+RUN npm install -g iconv
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
@@ -18,4 +22,4 @@ RUN npm install
 COPY . .
 
 EXPOSE 8080
-CMD [ "node", "Server.ts" ]
+CMD [ "node", "./dist/out-tsc/src/ServerMain.d.ts" ]

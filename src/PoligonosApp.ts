@@ -2,7 +2,7 @@ import {Server} from './Server';
 
 import {GeoJSON} from './layer';
 
-import {Polygon} from './vector/Polygon';
+import {Polygon} from './dist/out-tsc/src/layer/vector/Polygon';
 
 const PoligonosAppDemoClass = L.Class.extend({
 
