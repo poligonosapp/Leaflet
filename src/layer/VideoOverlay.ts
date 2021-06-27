@@ -2,6 +2,8 @@ import {ImageOverlay} from './ImageOverlay';
 import * as DomUtil from '../dom/DomUtil';
 import * as Util from '../core/Util';
 
+import '../geo/LatLngBounds';
+
 /*
  * @class VideoOverlay
  * @aka L.VideoOverlay
@@ -21,7 +23,7 @@ import * as Util from '../core/Util';
  * ```
  */
 
-export var VideoOverlay = ImageOverlay.extend({
+export class VideoOverlay = ImageOverlay.extend({
 
 	// @section
 	// @aka VideoOverlay options
@@ -78,7 +80,8 @@ export var VideoOverlay = ImageOverlay.extend({
 		vid.autoplay = !!this.options.autoplay;
 		vid.loop = !!this.options.loop;
 		vid.muted = !!this.options.muted;
-		for (let i = 0; i < this._url.length; i++) {
+
+		for (let i in this._url.length) {
 			const source = DomUtil.create('source');
 			source.src = this._url[i];
 			vid.appendChild(source);
@@ -95,6 +98,6 @@ export var VideoOverlay = ImageOverlay.extend({
 // Instantiates an image overlay object given the URL of the video (or array of URLs, or even a video element) and the
 // geographical bounds it is tied to.
 
-export function videoOverlay(video, bounds, options) {
+export function videoOverlay(video: string|[]|HTMLVideoElement, bounds:LatLngBounds, options:VideoOverlay):VideoOverlay {
 	return new VideoOverlay(video, bounds, options);
 }

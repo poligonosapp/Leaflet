@@ -150,7 +150,7 @@ export function clipSegment(a, b, bounds, useLastCode, round) {
 	}
 }
 
-export function _getEdgeIntersection(a, b, code, bounds, round) {
+export function _getEdgeIntersection(a, b, code, bounds, round):Point {
 	const dx = b.x - a.x,
 	    dy = b.y - a.y,
 	    min = bounds.min,

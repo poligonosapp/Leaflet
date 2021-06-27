@@ -44,7 +44,7 @@ import * as DomUtil from '../dom/DomUtil';
  * ```
  */
 
-export const Layers = Control.extend({
+export let Layers = Control.extend({
 	// @section
 	// @aka Control.Layers options
 	options: {
@@ -77,7 +77,7 @@ export const Layers = Control.extend({
 		}
 	},
 
-	initialize: function (baseLayers, overlays, options) {
+	initialize: function (baseLayers:Layer, overlays, options):Layers {
 		Util.setOptions(this, options);
 
 		this._layerControlInputs = [];
@@ -94,7 +94,7 @@ export const Layers = Control.extend({
 		}
 	},
 
-	onAdd: function (map) {
+	onAdd: function (map:Map) {
 		this._initLayout();
 		this._update();
 
@@ -354,7 +354,7 @@ export const Layers = Control.extend({
 
 	_onInputClick: function () {
 		const inputs = this._layerControlInputs,
-		    input, layer;
+		    input, layer:Layer;
 		const addedLayers = [],
 		    removedLayers = [];
 
@@ -425,6 +425,6 @@ export const Layers = Control.extend({
 
 // @factory L.control.layers(baselayers?: Object, overlays?: Object, options?: Control.Layers options)
 // Creates a layers control with the given layers. Base layers will be switched with radio buttons, while overlays will be switched with checkboxes. Note that all base layers should be passed in the base layers object, but only one should be added to the map during map instantiation.
-export const layers = function (baseLayers, overlays, options) {
+export let layers = function (baseLayers:Layers, overlays, options):Layers {
 	return new Layers(baseLayers, overlays, options);
 };

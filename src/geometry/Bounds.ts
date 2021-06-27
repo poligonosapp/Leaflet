@@ -25,7 +25,11 @@ import {Point, toPoint} from './Point';
  * can't be added to it with the `include` function.
  */
 
-export function Bounds(a, b) {
+export function Bounds(a:number, b:number):[] {
+
+	let min:Point;
+	let max:Point;
+
 	if (!a) { return; }
 
 	const points = b ? [a, b] : a;
@@ -38,7 +42,7 @@ export function Bounds(a, b) {
 Bounds.prototype = {
 	// @method extend(point: Point): this
 	// Extends the bounds to contain the given point.
-	extend: function (point) { // (Point)
+	extend: function (point:Point):Point { // (Point)
 		point = toPoint(point);
 
 		// @property min: Point
@@ -59,7 +63,7 @@ Bounds.prototype = {
 
 	// @method getCenter(round?: Boolean): Point
 	// Returns the center point of the bounds.
-	getCenter: function (round) {
+	getCenter: function (round:number):Point {
 		return new Point(
 		        (this.min.x + this.max.x) / 2,
 		        (this.min.y + this.max.y) / 2, round);
@@ -67,13 +71,16 @@ Bounds.prototype = {
 
 	// @method getBottomLeft(): Point
 	// Returns the bottom-left point of the bounds.
-	getBottomLeft: function () {
+	getBottomLeft: function ():Point {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+		// @ts-ignore
 		return new Point(this.min.x, this.max.y);
 	},
 
 	// @method getTopRight(): Point
 	// Returns the top-right point of the bounds.
-	getTopRight: function () { // -> Point
+	getTopRight: function (): Point { // -> Point
+		// @ts-ignore
 		return new Point(this.max.x, this.min.y);
 	},
 
@@ -100,7 +107,7 @@ Bounds.prototype = {
 	// @alternative
 	// @method contains(point: Point): Boolean
 	// Returns `true` if the rectangle contains the given point.
-	contains: function (obj:number) {
+	contains: function (obj:number):boolean {
 		const min, max;
 
 		if (typeof obj[0] === 'number' || obj instanceof Point) {
@@ -125,7 +132,7 @@ Bounds.prototype = {
 	// @method intersects(otherBounds: Bounds): Boolean
 	// Returns `true` if the rectangle intersects the given bounds. Two bounds
 	// intersect if they have at least one point in common.
-	intersects: function (bounds) { // (Bounds) -> Boolean
+	intersects: function (bounds:number[]): boolean { // (Bounds) -> Boolean
 		bounds = toBounds(bounds);
 
 		const min = this.min,
@@ -141,7 +148,7 @@ Bounds.prototype = {
 	// @method overlaps(otherBounds: Bounds): Boolean
 	// Returns `true` if the rectangle overlaps the given bounds. Two bounds
 	// overlap if their intersection is an area.
-	overlaps: function (bounds) { // (Bounds) -> Boolean
+	overlaps: function (bounds):boolean { // (Bounds) -> Boolean
 		bounds = toBounds(bounds);
 
 		const min = this.min,
@@ -165,7 +172,7 @@ Bounds.prototype = {
 // @alternative
 // @factory L.bounds(points: Point[])
 // Creates a Bounds object from the given array of points.
-export function toBounds(a, b) {
+export function toBounds(a:Bounds, b:Bounds):Bounds[] {
 	if (!a || a instanceof Bounds) {
 		return a;
 	}

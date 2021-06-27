@@ -22,7 +22,7 @@ import * as Util from '../core/Util';
 
 // factory new L.Transformation(a: Number, b: Number, c: Number, d: Number)
 // Creates a `Transformation` object with the given coefficients.
-export function Transformation(a, b, c, d) {
+export function Transformation(a:number[], b:number[], c:number[], d:number[]) {
 	if (Util.isArray(a)) {
 		// use array properties
 		this._a = a[0];
@@ -37,6 +37,7 @@ export function Transformation(a, b, c, d) {
 	this._d = d;
 }
 
+// @ts-ignore
 Transformation.prototype = {
 	// @method transform(point: Point, scale?: Number): Point
 	// Returns a transformed point, optionally multiplied by the given scale.

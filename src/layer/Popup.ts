@@ -35,7 +35,7 @@ import {Path} from './vector/Path';
 
 
 // @namespace Popup
-export var Popup = DivOverlay.extend({
+export let Popup = DivOverlay.extend({
 
 	// @section
 	// @aka Popup options
@@ -103,7 +103,7 @@ export var Popup = DivOverlay.extend({
 	// @namespace Popup
 	// @method openOn(map: Map): this
 	// Adds the popup to the map and closes the previous one. The same as `map.openPopup(popup)`.
-	openOn: function (map) {
+	openOn: function (map:Map) {
 		map.openPopup(this);
 		return this;
 	},
@@ -131,7 +131,7 @@ export var Popup = DivOverlay.extend({
 		}
 	},
 
-	onRemove: function (map) {
+	onRemove: function (map:Map) {
 		DivOverlay.prototype.onRemove.call(this, map);
 
 		// @namespace Map
@@ -282,7 +282,7 @@ export var Popup = DivOverlay.extend({
 		DomEvent.stop(e);
 	},
 
-	_getAnchor: function () {
+	_getAnchor: function ():Point {
 		// Where should we anchor the popup on the source layer?
 		return toPoint(this._source && this._source._getPopupAnchor ? this._source._getPopupAnchor() : [0, 0]);
 	}
@@ -292,7 +292,7 @@ export var Popup = DivOverlay.extend({
 // @namespace Popup
 // @factory L.popup(options?: Popup options, source?: Layer)
 // Instantiates a `Popup` object given an optional `options` object that describes its appearance and location and an optional `source` object that is used to tag the popup with a reference to the Layer to which it refers.
-export var popup = function (options, source) {
+export let popup = function (options, source) {
 	return new Popup(options, source);
 };
 

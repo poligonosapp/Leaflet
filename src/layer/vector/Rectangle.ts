@@ -29,7 +29,7 @@ import {LatLngBounds, toLatLngBounds} from '../../geo/LatLngBounds';
 
 
 export const Rectangle = Polygon.extend({
-	initialize: function (latLngBounds:LatLngBounds, options) {
+	initialize: function (latLngBounds:LatLngBounds[], options:[]) {
 		Polygon.prototype.initialize.call(this, this._boundsToLatLngs(latLngBounds), options);
 	},
 

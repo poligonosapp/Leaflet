@@ -38,7 +38,7 @@ export const Scale = Control.extend({
 		// If `true`, the control is updated on [`moveend`](#map-moveend), otherwise it's always up-to-date (updated on [`move`](#map-move)).
 	},
 
-	onAdd: function (map) {
+	onAdd: function (map:Map) {
 		const className = 'leaflet-control-scale',
 		    container = DomUtil.create('div', className),
 		    options = this.options;
@@ -51,11 +51,11 @@ export const Scale = Control.extend({
 		return container;
 	},
 
-	onRemove: function (map) {
+	onRemove: function (map:Map) {
 		map.off(this.options.updateWhenIdle ? 'moveend' : 'move', this._update, this);
 	},
 
-	_addScales: function (options, className, container) {
+	_addScales: function (options, className, container:Node) {
 		if (options.metric) {
 			this._mScale = DomUtil.create('div', className, container);
 		}

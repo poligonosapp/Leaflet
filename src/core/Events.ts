@@ -27,14 +27,14 @@ import { get } from 'src/dom/DomUtil';
  * ```
  */
 
-export const Events = {
+export class Events = {
     /* @method on(type: String, fn: Function, context?: Object): this
 	 * Adds a listener function (`fn`) to a particular event type of the object. You can optionally specify the context of the listener (object the this keyword will point to). You can also pass several space-separated types (e.g. `'click dblclick'`).
 	 *
 	 * @alternative
 	 * @method on(eventMap: Object): this
 	 * Adds a set of type/listener pairs, e.g. `{click: onClick, mousemove: onMouseMove}`
-	 * 
+	 *
 	 * Don't use `object` as a type. The `object` type is currently hard to use ([see this issue](https://github.com/microsoft/TypeScript/issues/21732)).
 Consider using `Record<string, unknown>` instead, as it allows you to more easily inspect and use the keys.eslint@typescript-eslint/ban-types)
 	 */
@@ -44,7 +44,7 @@ Consider using `Record<string, unknown>` instead, as it allows you to more easil
         context: Record<string, unknown>
     ): Record<string, unknown> {
         // types can be a map of types/handlers
-        if (typeof types === typeof 'Record<string, unknown>') {
+        if (typeof types === typeof 'Record<string, number>') {
             for (const type in types) {
                 // we don't process space-separated events here for performance;
                 // it's a hot path since Layer uses the on(obj) syntax
@@ -325,4 +325,4 @@ Events.fireEvent = Events.fire;
 // Alias to [`listens(…)`](#evented-listens)
 Events.hasEventListeners = Events.listens;
 
-export const Evented = Class.extend(Events);
+export class Evented = Class.extend(Events);

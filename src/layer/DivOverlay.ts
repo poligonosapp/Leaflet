@@ -38,7 +38,7 @@ export const DivOverlay = Layer.extend({
 		this._source = source;
 	},
 
-	onAdd: function (map) {
+	onAdd: function (map:Map) {
 		this._zoomAnimated = map._zoomAnimated;
 
 		if (!this._container) {
@@ -60,7 +60,7 @@ export const DivOverlay = Layer.extend({
 		this.bringToFront();
 	},
 
-	onRemove: function (map) {
+	onRemove: function (map:Map) {
 		if (map._fadeAnimated) {
 			DomUtil.setOpacity(this._container, 0);
 			this._removeTimeout = setTimeout(Util.bind(DomUtil.remove, undefined, this._container), 200);

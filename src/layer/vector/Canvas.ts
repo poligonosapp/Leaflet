@@ -37,8 +37,8 @@ import {Bounds} from '../../geometry/Bounds';
  * ```
  */
 
-export const Canvas = Renderer.extend({
-	getEvents: function () {
+export let Canvas = Renderer.extend({
+	getEvents: function ():Canvas {
 		const events = Renderer.prototype.getEvents.call(this);
 		events.viewprereset = this._onViewPreReset;
 		return events;
@@ -482,6 +482,6 @@ export const Canvas = Renderer.extend({
 
 // @factory L.canvas(options?: Renderer options)
 // Creates a Canvas renderer with the given options.
-export function canvas(options) {
+export function canvas(options):Canvas {
 	return Browser.canvas ? new Canvas(options) : null;
 }

@@ -60,14 +60,14 @@ export const Polyline = Path.extend({
 		noClip: false
 	},
 
-	initialize: function (latlngs, options) {
+	initialize: function (latlngs:LatLng, options) {
 		Util.setOptions(this, options);
 		this._setLatLngs(latlngs);
 	},
 
 	// @method getLatLngs(): LatLng[]
 	// Returns an array of the points in the path, or nested arrays of points in case of multi-polyline.
-	getLatLngs: function () {
+	getLatLngs: function ():LatLng {
 		return this._latlngs;
 	},
 
@@ -325,7 +325,7 @@ export const Polyline = Path.extend({
 // optionally an options object. You can create a `Polyline` object with
 // multiple separate lines (`MultiPolyline`) by passing an array of arrays
 // of geographic points.
-export function polyline(latlngs, options) {
+export function polyline(latlngs:LatLng[], options:[]):Polyline {
 	return new Polyline(latlngs, options);
 }
 

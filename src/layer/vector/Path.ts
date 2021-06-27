@@ -74,7 +74,7 @@ export const Path = Layer.extend({
 		bubblingMouseEvents: true
 	},
 
-	beforeAdd: function (map) {
+	beforeAdd: function (map:Map) {
 		// Renderer is set here because we need to call renderer.getEvents
 		// before this.getEvents.
 		this._renderer = map.getRenderer(this);

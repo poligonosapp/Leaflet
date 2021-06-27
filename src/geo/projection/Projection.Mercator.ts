@@ -9,13 +9,13 @@ import {Point} from '../../geometry/Point';
  * Elliptical Mercator projection — more complex than Spherical Mercator. Assumes that Earth is an ellipsoid. Used by the EPSG:3395 CRS.
  */
 
-export var Mercator = {
+export let Mercator = {
 	R: 6378137,
 	R_MINOR: 6356752.314245179,
 
 	bounds: new Bounds([-20037508.34279, -15496570.73972], [20037508.34279, 18764656.23138]),
 
-	project: function (latlng) {
+	project: function (latlng:LatLng):Point{
 		let d = Math.PI / 180,
 		    r = this.R,
 		    y = latlng.lat * d,
@@ -29,7 +29,7 @@ export var Mercator = {
 		return new Point(latlng.lng * d * r, y);
 	},
 
-	unproject: function (point) {
+	unproject: function (point:Point):LatLng {
 		let d = 180 / Math.PI,
 		    r = this.R,
 		    tmp = this.R_MINOR / r,
@@ -37,7 +37,7 @@ export var Mercator = {
 		    ts = Math.exp(-point.y / r),
 		    phi = Math.PI / 2 - 2 * Math.atan(ts);
 
-		for (var i = 0, dphi = 0.1, con; i < 15 && Math.abs(dphi) > 1e-7; i++) {
+		for (let i = 0, dphi = 0.1, con; i < 15 && Math.abs(dphi) > 1e-7; i++) {
 			con = e * Math.sin(phi);
 			con = Math.pow((1 - con) / (1 + con), e / 2);
 			dphi = Math.PI / 2 - 2 * Math.atan(ts * con) - phi;

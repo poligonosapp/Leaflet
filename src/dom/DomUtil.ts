@@ -37,7 +37,7 @@ export const TRANSITION_END =
 // @function get(id: String|HTMLElement): HTMLElement
 // Returns an element given its DOM id, or returns the element itself
 // if it was passed directly.
-export function get(id) {
+export function get(id): string | HTMLElement | null {
 	return typeof id === 'string' ? document.getElementById(id) : id;
 }
 
@@ -56,7 +56,7 @@ export function getStyle(el, style) {
 
 // @function create(tagName: String, className?: String, container?: HTMLElement): HTMLElement
 // Creates an HTML element with `tagName`, sets its class to `className`, and optionally appends it to `container` element.
-export function create(tagName, className, container) {
+export function create(tagName:HTMLElement, className:HTMLCollectionOf<HTMLElement>, container:Node): Element {
 	const el = document.createElement(tagName);
 	el.className = className || '';
 
@@ -195,10 +195,10 @@ function _setOpacityIE(el, value) {
 // Goes through the array of style names and returns the first name
 // that is a valid style name for an element. If no such name is found,
 // it returns false. Useful for vendor-prefixed styles like `transform`.
-export function testProp(props) {
+export function testProp(props:string[]) {
 	const style = document.documentElement.style;
 
-	for (const i = 0; i < props.length; i++) {
+	for (const i in props.length) {
 		if (props[i] in style) {
 			return props[i];
 		}
@@ -224,7 +224,7 @@ export function setTransform(el, offset, scale) {
 // Sets the position of `el` to coordinates specified by `position`,
 // using CSS translate or top/left positioning depending on the browser
 // (used by Leaflet internally to position its layers).
-export function setPosition(el, point) {
+export function setPosition(el, point:Point) {
 
 	/*eslint-disable */
 	el._leaflet_pos = point;
@@ -240,7 +240,7 @@ export function setPosition(el, point) {
 
 // @function getPosition(el: HTMLElement): Point
 // Returns the coordinates of an element previously positioned with setPosition.
-export function getPosition(el) {
+export function getPosition(el:Point):Point {
 	// this method is only used for elements previously positioned using setPosition,
 	// so it's safe to cache the position for performance
 

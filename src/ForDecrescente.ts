@@ -15,11 +15,13 @@ try{
     for(let i in vetor.length){
         vetor[i] = (-1)*vetor[i];
     }
+}catch (e) {
+    nodemon("forDecrescente fail");
 } finally {
-    
+
     for (let i in vetor.length) {
 
-        nodemon.logger(vetor[i]);
+        nodemon(vetor[i]);
 
     }
 

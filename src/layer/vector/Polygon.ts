@@ -153,17 +153,17 @@ export const Polygon = Polyline.extend({
 	},
 
 	// Needed by the `Canvas` renderer for interactivity
-	_containsPoint: function (p) {
+	_containsPoint: function (p:Point):boolean|Point {
 		const inside = false,
-		    part, p1, p2, i, j, k, len, len2;
+		    part, p1, p2, k, len, len2;
 
 		if (!this._pxBounds || !this._pxBounds.contains(p)) { return false; }
 
 		// ray casting algorithm for detecting if point is in polygon
-		for (i = 0, len = this._parts.length; i < len; i++) {
+		for (let i = 0, len = this._parts.length; i < len; i++) {
 			part = this._parts[i];
 
-			for (j = 0, len2 = part.length, k = len2 - 1; j < len2; k = j++) {
+			for (let j = 0, len2 = part.length, k = len2 - 1; j < len2; k = j++) {
 				p1 = part[j];
 				p2 = part[k];
 

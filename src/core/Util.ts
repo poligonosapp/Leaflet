@@ -101,7 +101,7 @@ export function falseFn() { return false; }
 
 // @function formatNum(num: Number, digits?: Number): Number
 // Returns the number `num` rounded to `digits` decimals, or to 6 decimals by default.
-export function formatNum(num, digits) {
+export function formatNum(num:number, digits:number): number {
 	const pow = Math.pow(10, (digits === undefined ? 6 : digits));
 	return Math.round(num * pow) / pow;
 }
@@ -120,7 +120,7 @@ export function splitWords(str:string):string {
 
 // @function setOptions(obj: Object, options: Object): Object
 // Merges the given properties to the `options` of the `obj` object, returning the resulting options. See `Class options`. Has an `L.setOptions` shortcut.
-export function setOptions(obj, options) {
+export function setOptions(obj, options: []) {
 	if (!Object.prototype.hasOwnProperty.call(obj, 'options')) {
 		obj.options = obj.options ? create(obj.options) : {};
 	}

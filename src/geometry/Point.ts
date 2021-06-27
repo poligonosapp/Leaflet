@@ -36,6 +36,13 @@ export function Point(x:number, y:number, round:number):number {
 	return round;
 }
 
+export interface Point{
+	x:number;
+	y:number;
+	//
+	//abstract function clone();
+};
+
 const trunc = Math.trunc || function (v) {
 	return v > 0 ? Math.floor(v) : Math.ceil(v);
 };
@@ -44,8 +51,9 @@ Point.prototype = {
 
 	// @method clone(): Point
 	// Returns a copy of the current point.
-	clone: function () {
-		return new Point(this.x, this.y);
+	clone: function ():Point {
+		// @ts-ignore
+		return new Point(this.x, this.y, 0);
 	},
 
 	// @method add(otherPoint: Point): Point
@@ -55,7 +63,7 @@ Point.prototype = {
 		return this.clone()._add(toPoint(point));
 	},
 
-	_add: function (point) {
+	_add: function (point:Point) {
 		// destructive, used directly for performance in situations where it's safe to modify existing point
 		this.x += point.x;
 		this.y += point.y;
@@ -64,11 +72,11 @@ Point.prototype = {
 
 	// @method subtract(otherPoint: Point): Point
 	// Returns the result of subtraction of the given point from the current.
-	subtract: function (point) {
+	subtract: function (point:Point) {
 		return this.clone()._subtract(toPoint(point));
 	},
 
-	_subtract: function (point) {
+	_subtract: function (point:Point) {
 		this.x -= point.x;
 		this.y -= point.y;
 		return this;
@@ -76,11 +84,11 @@ Point.prototype = {
 
 	// @method divideBy(num: Number): Point
 	// Returns the result of division of the current point by the given number.
-	divideBy: function (num) {
-		return this.clone()._divideBy(num);
+	divideBy: function (num:number) {
+		return this.clone()._divideBy(num:number);
 	},
 
-	_divideBy: function (num) {
+	_divideBy: function (num:number) {
 		this.x /= num;
 		this.y /= num;
 		return this;
@@ -88,11 +96,11 @@ Point.prototype = {
 
 	// @method multiplyBy(num: Number): Point
 	// Returns the result of multiplication of the current point by the given number.
-	multiplyBy: function (num) {
+	multiplyBy: function (num:number) {
 		return this.clone()._multiplyBy(num);
 	},
 
-	_multiplyBy: function (num) {
+	_multiplyBy: function (num:number) {
 		this.x *= num;
 		this.y *= num;
 		return this;
@@ -103,14 +111,14 @@ Point.prototype = {
 	// `scale`. In linear algebra terms, multiply the point by the
 	// [scaling matrix](https://en.wikipedia.org/wiki/Scaling_%28geometry%29#Matrix_representation)
 	// defined by `scale`.
-	scaleBy: function (point) {
+	scaleBy: function (point:Point) {
 		return new Point(this.x * point.x, this.y * point.y);
 	},
 
 	// @method unscaleBy(scale: Point): Point
 	// Inverse of `scaleBy`. Divide each coordinate of the current point by
 	// each coordinate of `scale`.
-	unscaleBy: function (point) {
+	unscaleBy: function (point:Point) {
 		return new Point(this.x / point.x, this.y / point.y);
 	},
 
@@ -164,8 +172,8 @@ Point.prototype = {
 
 	// @method distanceTo(otherPoint: Point): Number
 	// Returns the cartesian distance between the current and the given points.
-	distanceTo: function (point) {
-		point = toPoint(point);
+	distanceTo: function (point:Point):number {
+		point = toPoint(point:Point);
 
 		const x = point.x - this.x,
 		    y = point.y - this.y;
@@ -175,7 +183,7 @@ Point.prototype = {
 
 	// @method equals(otherPoint: Point): Boolean
 	// Returns `true` if the given point has the same coordinates.
-	equals: function (point) {
+	equals: function (point:Point):boolean {
 		point = toPoint(point);
 
 		return point.x === this.x &&
@@ -193,7 +201,7 @@ Point.prototype = {
 
 	// @method toString(): String
 	// Returns a string representation of the point for debugging purposes.
-	toString: function () {
+	toString: function (): string {
 		return 'Point(' +
 		        formatNum(this.x) + ', ' +
 		        formatNum(this.y) + ')';
@@ -210,18 +218,17 @@ Point.prototype = {
 // @alternative
 // @factory L.point(coords: Object)
 // Expects a plain object of the form `{x: Number, y: Number}` instead.
-export function toPoint(x: [], y: number, round: number):Point[] {
-	if (x instanceof Point) {
+export function toPoint(x: number|[], y: number, round: number):Point|null|undefined {
+	if (x instanceof number) {
 		return x;
 	}
-	if (isArray(x)) {
-		return new Point(x[0], x[1]);
-	}
+	// if (isArray(x)) {return new Point(x[0], x[1]);}
 	if (x === undefined || x === null) {
 		return x;
 	}
-	if (typeof x === 'object' && 'x' in x && 'y' in x) {
+	if (typeof x === 'Record<string,number>' && 'x' in x && 'y' in x) {
 		return new Point(x.x, x.y);
 	}
 	return new Point(x, y, round);
-}
+} // end toPoint
+
