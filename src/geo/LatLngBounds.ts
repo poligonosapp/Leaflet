@@ -39,7 +39,7 @@ export function LatLngBounds(corner1, corner2):Flatten<LatLng, LatLngBounds> { /
 
 	const latlngs = corner2 ? [corner1, corner2] : corner1;
 
-	for (let i in latlngs.length) {
+	for (const i in latlngs.length) {
 		this.extend(latlngs[i]);
 	}
 }

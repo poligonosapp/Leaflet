@@ -34,7 +34,7 @@ export function Bounds(a:number, b:number):[] {
 
 	const points = b ? [a, b] : a;
 
-	for (let i in points.length) {
+	for (const i in points.length) {
 		this.extend(points[i]);
 	}
 }
@@ -148,7 +148,7 @@ Bounds.prototype = {
 	// @method overlaps(otherBounds: Bounds): Boolean
 	// Returns `true` if the rectangle overlaps the given bounds. Two bounds
 	// overlap if their intersection is an area.
-	overlaps: function (bounds):boolean { // (Bounds) -> Boolean
+	overlaps: function (bounds:typeof Bounds | typeof Bounds[]):boolean { // (Bounds) -> Boolean
 		bounds = toBounds(bounds);
 
 		const min = this.min,
@@ -172,7 +172,7 @@ Bounds.prototype = {
 // @alternative
 // @factory L.bounds(points: Point[])
 // Creates a Bounds object from the given array of points.
-export function toBounds(a:Bounds, b:Bounds):Bounds[] {
+export function toBounds(a:typeof Bounds, b:typeof Bounds):typeof Bounds[] {
 	if (!a || a instanceof Bounds) {
 		return a;
 	}

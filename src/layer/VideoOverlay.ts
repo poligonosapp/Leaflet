@@ -3,6 +3,7 @@ import * as DomUtil from '../dom/DomUtil';
 import * as Util from '../core/Util';
 
 import '../geo/LatLngBounds';
+import {Bounds} from '../geometry';
 
 /*
  * @class VideoOverlay
@@ -98,6 +99,6 @@ export class VideoOverlay = ImageOverlay.extend({
 // Instantiates an image overlay object given the URL of the video (or array of URLs, or even a video element) and the
 // geographical bounds it is tied to.
 
-export function videoOverlay(video: string|[]|HTMLVideoElement, bounds:LatLngBounds, options:VideoOverlay):VideoOverlay {
-	return new VideoOverlay(video, bounds, options);
+export function videoOverlay(video: string|[]|HTMLVideoElement, bounds:typeof Bounds, options:VideoOverlay):VideoOverlay {
+	return new VideoOverlay(video: string|[]|HTMLVideoElement, bounds:typeof Bounds, options:VideoOverlay);
 }

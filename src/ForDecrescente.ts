@@ -3,7 +3,7 @@ import nodemon from 'nodemon';
 export function decrescente(vetor: number[]): number[]{
 
 try{
-    for (let i in vetor.length){
+    for (const i in vetor.length){
 
         vetor[i] = (-1) * vetor[i];
 
@@ -12,14 +12,14 @@ try{
     // sort negative number
     vetor.sort();
 
-    for(let i in vetor.length){
+    for(const i in vetor.length){
         vetor[i] = (-1)*vetor[i];
     }
 }catch (e) {
     nodemon("forDecrescente fail");
 } finally {
 
-    for (let i in vetor.length) {
+    for (const i in vetor.length) {
 
         nodemon(vetor[i]);
 

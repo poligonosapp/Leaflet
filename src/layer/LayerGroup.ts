@@ -20,7 +20,7 @@ import * as Util from '../core/Util';
  * ```
  */
 
-export let LayerGroup = Layer.extend({
+export const LayerGroup = Layer.extend({
 
 	initialize: function (layers, options) {
 		Util.setOptions(this, options);

@@ -39,7 +39,10 @@ export const android = userAgentContains('android');
 export const android23 = userAgentContains('android 2') || userAgentContains('android 3');
 
 /* See https://stackoverflow.com/a/17961266 for details on detecting stock Android */
-const webkitVer = parseInt(/WebKit\/([0-9]+)|$/.exec(navigator.userAgent)[1], 10); // also matches AppleWebKit
+
+let s: string = '/WebKit\\/([0-9]+)|$/.exec(navigator.userAgent)[1]';
+
+const webkitVer = parseInt(s, 10); // also matches AppleWebKit
 // @property androidStock: Boolean; `true` for the Android stock browser (i.e. not Chrome)
 export const androidStock = android && userAgentContains('Google') && webkitVer < 537 && !('AudioNode' in window);
 
@@ -134,7 +137,7 @@ export const passiveEvents = (function () {
 
 // @property canvas: Boolean
 // `true` when the browser supports [`<canvas>`](https://developer.mozilla.org/docs/Web/API/Canvas_API).
-export const canvas = (function () {
+export const canvas = (function (): boolean {
 	return !!document.createElement('canvas').getContext;
 }());
 
@@ -160,6 +163,6 @@ export const vml = !svg && (function () {
 }());
 
 
-function userAgentContains(str) {
+function userAgentContains(str:string) {
 	return navigator.userAgent.toLowerCase().indexOf(str) >= 0;
 }

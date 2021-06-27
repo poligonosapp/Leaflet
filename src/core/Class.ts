@@ -12,7 +12,7 @@ import {GeoJSON} from '../layer';
 
 export function Class(){}
 
-Class.extend = function (props) {
+Class.extend = function (props:typeof Class) {
 
 	// @function extend(props: Object): Function
 	// [Extends the current class](#class-inheritance) given the properties to be included.
@@ -87,7 +87,7 @@ Class.extend = function (props) {
 
 // @function include(properties: Object): this
 // [Includes a mixin](#class-includes) into the current class.
-Class.include = function (props) {
+Class.include = function (props:typeof Class) {
 	Util.extend(this.prototype, props);
 	return this;
 };
@@ -101,10 +101,10 @@ Class.mergeOptions = function (options) {
 
 // @function addInitHook(fn: Function): this
 // Adds a [constructor hook](#class-constructor-hooks) to the class.
-Class.addInitHook = function (fn) { // (Function) || (String, args...)
-	var args = Array.prototype.slice.call(arguments, 1);
+Class.addInitHook = function (fn:typeof Function) { // (Function) || (String, args...)
+	let args = Array.prototype.slice.call(arguments, 1);
 
-	var init = typeof fn === 'function' ? fn : function () {
+	let init = typeof fn === 'function' ? fn : function () {
 		this[fn].apply(this, args);
 	};
 
@@ -126,19 +126,3 @@ function checkDeprecatedMixinEvents(includes) {
 		}
 	}
 }
-
-export abstract class Class{
-	// @typescript-eslint/no-unsafe-call warning before user input @typescript-eslint/no-unsafe-call warning before user input https://github.com/poligonosapp/programming-typescript-answers/blob/master/src/ch04/exercises.ts
-	// null unknown undefined https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-3.html
-	static type #options : GeoJSON;
-	static type #extend: GeoJSON;
-	static type #include: GeoJSON;
-	static type #initialize: GeoJSON;
-}
-() => {
-
-	// static #extend();
-	// static #include();
-	// static #initialize();
-
-};

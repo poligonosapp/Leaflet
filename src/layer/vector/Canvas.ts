@@ -1,3 +1,5 @@
+import Layer from './Layer';
+
 import {Renderer} from './Renderer';
 import * as DomUtil from '../../dom/DomUtil';
 import * as DomEvent from '../../dom/DomEvent';
@@ -38,7 +40,7 @@ import {Bounds} from '../../geometry/Bounds';
  */
 
 export let Canvas = Renderer.extend({
-	getEvents: function ():Canvas {
+	getEvents: function ():typeof Canvas {
 		const events = Renderer.prototype.getEvents.call(this);
 		events.viewprereset = this._onViewPreReset;
 		return events;
@@ -78,7 +80,7 @@ export let Canvas = Renderer.extend({
 	_updatePaths: function () {
 		if (this._postponeUpdatePaths) { return; }
 
-		const layer;
+		const layer:Layer;
 		this._redrawBounds = null;
 		for (const id in this._layers) {
 			layer = this._layers[id];
@@ -125,7 +127,7 @@ export let Canvas = Renderer.extend({
 		}
 	},
 
-	_initPath: function (layer) {
+	_initPath: function (layer:Layer) {
 		this._updateDashArray(layer);
 		this._layers[Util.stamp(layer)] = layer;
 
@@ -279,8 +281,8 @@ export let Canvas = Renderer.extend({
 
 		ctx.beginPath();
 
-		for (let i in len) {
-			for (let j in parts[i].length) {
+		for (const i in len) {
+			for (const j in parts[i].length) {
 				p = parts[i][j];
 				ctx[j ? 'lineTo' : 'moveTo'](p.x, p.y);
 			}
@@ -384,7 +386,7 @@ export let Canvas = Renderer.extend({
 			return;
 		}
 
-		const layer, candidateHoveredLayer;
+		const layer:Layer, candidateHoveredLayer;
 
 		for (const order = this._drawFirst; order; order = order.next) {
 			layer = order.layer;
@@ -413,11 +415,11 @@ export let Canvas = Renderer.extend({
 		}, this), 32);
 	},
 
-	_fireEvent: function (layers, e, type) {
+	_fireEvent: function (layers:Layer, e, type) {
 		this._map._fireDOMEvent(e, type || e.type, layers);
 	},
 
-	_bringToFront: function (layer) {
+	_bringToFront: function (layer:Layer) {
 		const order = layer._order;
 
 		if (!order) { return; }
@@ -448,7 +450,7 @@ export let Canvas = Renderer.extend({
 		this._requestRedraw(layer);
 	},
 
-	_bringToBack: function (layer) {
+	_bringToBack: function (layer:Layer) {
 		const order = layer._order;
 
 		if (!order) { return; }
@@ -482,6 +484,6 @@ export let Canvas = Renderer.extend({
 
 // @factory L.canvas(options?: Renderer options)
 // Creates a Canvas renderer with the given options.
-export function canvas(options):Canvas {
+export function canvas(options):typeof Canvas {
 	return Browser.canvas ? new Canvas(options) : null;
 }

@@ -27,7 +27,7 @@ import * as Util from '../core/Util';
  */
 
 
-export let Layer = Evented.extend({
+export const Layer = Evented.extend({
 
 	// Classes extending `L.Layer` will inherit the following options:
 	options: {

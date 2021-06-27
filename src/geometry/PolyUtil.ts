@@ -21,7 +21,7 @@ export function clipPolygon(points : Point[], bounds: Bounds, round: number|bool
 	    a, b,
 	    len, edge, p;
 
-	for (let i in points.length) {
+	for (const i in points.length) {
 		points[i]._code = LineUtil._getBitCode(points[i], bounds);
 	}
 

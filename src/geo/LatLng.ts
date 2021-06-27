@@ -27,7 +27,7 @@ import {toLatLngBounds} from './LatLngBounds';
  * can't be added to it with the `include` function.
  */
 
-export function LatLng(lat, lng, alt) {
+export function LatLng(lat:number, lng:number, alt:number) {
 	if (isNaN(lat) || isNaN(lng)) {
 		throw new Error('Invalid LatLng object: (' + lat + ', ' + lng + ')');
 	}
@@ -50,7 +50,7 @@ export function LatLng(lat, lng, alt) {
 LatLng.prototype = {
 	// @method equals(otherLatLng: LatLng, maxMargin?: Number): Boolean
 	// Returns `true` if the given `LatLng` point is at the same position (within a small margin of error). The margin of error can be overridden by setting `maxMargin` to a small number.
-	equals: function (obj, maxMargin) {
+	equals: function (obj:typeof LatLng, maxMargin:number):boolean {
 		if (!obj) { return false; }
 
 		obj = toLatLng(obj);
@@ -78,7 +78,7 @@ LatLng.prototype = {
 
 	// @method wrap(): LatLng
 	// Returns a new `LatLng` object with the longitude wrapped so it's always between -180 and +180 degrees.
-	wrap: function () {
+	wrap: function (): LatLng{
 		return Earth.wrapLatLng(this);
 	},
 
@@ -111,7 +111,7 @@ LatLng.prototype = {
 // @factory L.latLng(coords: Object): LatLng
 // Expects an plain object of the form `{lat: Number, lng: Number}` or `{lat: Number, lng: Number, alt: Number}` instead.
 
-export function toLatLng(a:LatLng, b, c) {
+export function toLatLng(a:typeof LatLng | typeof LatLng[], b:number, c:number):typeof LatLng {
 	if (a instanceof LatLng) {
 		return a;
 	}

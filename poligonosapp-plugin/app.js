@@ -1,4 +1,7 @@
+import {Server} from '../src/Server';
+import {Server} from './Server';
 
+const s = new Server();
 
 var createError = require('http-errors');
 var express = require('express');

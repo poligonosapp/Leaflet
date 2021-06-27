@@ -35,7 +35,7 @@ import {Path} from './vector/Path';
 
 
 // @namespace Popup
-export let Popup = DivOverlay.extend({
+export const Popup = DivOverlay.extend({
 
 	// @section
 	// @aka Popup options
@@ -292,7 +292,7 @@ export let Popup = DivOverlay.extend({
 // @namespace Popup
 // @factory L.popup(options?: Popup options, source?: Layer)
 // Instantiates a `Popup` object given an optional `options` object that describes its appearance and location and an optional `source` object that is used to tag the popup with a reference to the Layer to which it refers.
-export let popup = function (options, source) {
+export const popup = function (options, source) {
 	return new Popup(options, source);
 };
 
