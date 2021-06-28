@@ -8,6 +8,7 @@ declare module './dist/out-tsc/src/layer/vector/Polygon';
 declare module './dist/out-tsc/src/layer/GeoJSON';
 
 import 'iconv';
+export  'iconv';
 declare module 'iconv';
 
 import 'typescript-eslint/no-unsafe-call';
