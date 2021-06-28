@@ -1377,7 +1377,13 @@ if(e instanceof Error){
 
 		if (type === 'mousedown') {
 			// prevents outline when clicking on keyboard-focusable element
-			DomUtil.preventOutline(e.target || e.srcElement);
+			try{
+				DomUtil.preventOutline(e.target || e.srcElement);
+			}catch (e) {
+
+			}finally {
+
+			}
 		}
 
 		this._fireDOMEvent(e, type);

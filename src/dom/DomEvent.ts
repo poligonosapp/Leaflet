@@ -21,16 +21,16 @@ import {getScale} from './DomUtil';
 // @alternative
 // @function on(el: HTMLElement, eventMap: Object, context?: Object): this
 // Adds a set of type/listener pairs, e.g. `{click: onClick, mousemove: onMouseMove}`
-export function on(obj, types, fn, context) {
+export function on(obj:HTMLElement, types:typeof [], fn: typeof [], context: typeof []) {
 
-	if (typeof types === 'object') {
+	if (typeof types === typeof 'object') {
 		for (const type in types) {
 			addOne(obj, type, types[type], fn);
 		}
 	} else {
 		types = Util.splitWords(types);
 
-		for (let i = 0, len = types.length; i < len; i++) {
+		for (let i in types.length) {
 			addOne(obj, types[i], fn, context);
 		}
 	}
@@ -263,7 +263,7 @@ export function fakeStop(e) {
 	skipEvents[e.type] = true;
 }
 
-export function skipped(e) {
+export function skipped(e:Event):boolean {
 	const events = skipEvents[e.type];
 	// reset when checking, as it's only used in map container and propagates outside of the map
 	skipEvents[e.type] = false;

@@ -73,7 +73,7 @@ export const Polyline = Path.extend({
 
 	// @method setLatLngs(latlngs: LatLng[]): this
 	// Replaces all the points in the polyline with the given array of geographical points.
-	setLatLngs: function (latlngs) {
+	setLatLngs: function (latlngs:LatLng[]): typeof Path {
 		this._setLatLngs(latlngs);
 		return this.redraw();
 	},

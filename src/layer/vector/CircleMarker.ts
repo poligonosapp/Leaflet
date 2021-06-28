@@ -1,6 +1,10 @@
+import {LatLng , toLatLng} from '../../geo/LatLng';
+
+import {LatLngBounds} from '../../geo/LatLngBounds';
+
 import {Path} from './Path';
 import * as Util from '../../core/Util';
-import {toLatLng} from '../../geo/LatLng';
+// import {toLatLng} from '../../geo/LatLng';
 import {Bounds} from '../../geometry/Bounds';
 
 
@@ -12,7 +16,8 @@ import {Bounds} from '../../geometry/Bounds';
  * A circle of a fixed size with radius specified in pixels. Extends `Path`.
  */
 
-export const CircleMarker = Path.extend({
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+export let CircleMarker = Path.extend({
 
 	// @section
 	// @aka CircleMarker options
@@ -24,7 +29,7 @@ export const CircleMarker = Path.extend({
 		radius: 10
 	},
 
-	initialize: function (latlng:number, options:[]) {
+	initialize: function (latlng:typeof LatLng, options:[]) {
 		Util.setOptions(this, options);
 		this._latlng = toLatLng(latlng);
 		this._radius = this.options.radius;
@@ -32,7 +37,7 @@ export const CircleMarker = Path.extend({
 
 	// @method setLatLng(latLng: LatLng): this
 	// Sets the position of a circle marker to a new location.
-	setLatLng: function (latlng) {
+	setLatLng: function (latlng:typeof LatLng) {
 		const oldLatLng = this._latlng;
 		this._latlng = toLatLng(latlng);
 		this.redraw();
@@ -57,11 +62,11 @@ export const CircleMarker = Path.extend({
 
 	// @method getRadius(): Number
 	// Returns the current radius of the circle
-	getRadius: function () {
+	getRadius: function (): typeof number {
 		return this._radius;
 	},
 
-	setStyle : function (options) {
+	setStyle : function (options:[]) {
 		const radius = options && options.radius || this._radius;
 		Path.prototype.setStyle.call(this, options);
 		this.setRadius(radius);
@@ -104,6 +109,6 @@ export const CircleMarker = Path.extend({
 
 // @factory L.circleMarker(latlng: LatLng, options?: CircleMarker options)
 // Instantiates a circle marker object given a geographical point, and an optional options object.
-export function circleMarker(latlng, options) {
+export function circleMarker(latlng: LatLng, options) {
 	return new CircleMarker(latlng, options);
 }

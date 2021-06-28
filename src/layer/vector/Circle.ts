@@ -1,7 +1,7 @@
 import {CircleMarker} from './CircleMarker';
 import {Path} from './Path';
 import * as Util from '../../core/Util';
-import {toLatLng} from '../../geo/LatLng';
+import {LatLng , toLatLng} from '../../geo/LatLng';
 import {LatLngBounds} from '../../geo/LatLngBounds';
 import {Earth} from '../../geo/crs/CRS.Earth';
 
@@ -24,8 +24,8 @@ import {Earth} from '../../geo/crs/CRS.Earth';
 
 export const Circle = CircleMarker.extend({
 
-	initialize: function (latlng, options, legacyOptions) {
-		if (typeof options === 'number') {
+	initialize: function (latlng:typeof LatLng, options:number[], legacyOptions) {
+		if (typeof options === typeof 'number') {
 			// Backwards compatibility with 0.7.x factory (latlng, radius, options?)
 			options = Util.extend({}, legacyOptions, {radius: options});
 		}
@@ -42,7 +42,7 @@ export const Circle = CircleMarker.extend({
 
 	// @method setRadius(radius: Number): this
 	// Sets the radius of a circle. Units are in meters.
-	setRadius: function (radius) {
+	setRadius: function (radius:typeof number) {
 		this._mRadius = radius;
 		return this.redraw();
 	},
@@ -55,7 +55,8 @@ export const Circle = CircleMarker.extend({
 
 	// @method getBounds(): LatLngBounds
 	// Returns the `LatLngBounds` of the path.
-	getBounds: function () {
+	getBounds: function (): typeof LatLngBounds{
+
 		const half = [this._radius, this._radiusY || this._radius];
 
 		return new LatLngBounds(
@@ -108,7 +109,8 @@ export const Circle = CircleMarker.extend({
 // @factory L.circle(latlng: LatLng, radius: Number, options?: Circle options)
 // Obsolete way of instantiating a circle, for compatibility with 0.7.x code.
 // Do not use in new applications or plugins.
-export function circle(latlng, options, legacyOptions) {
+@deprecated
+export function circle(latlng:typeof LatLng, options:typeof Circle[], legacyOptions) {
 	return new Circle(latlng, options, legacyOptions);
 }
 

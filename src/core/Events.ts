@@ -27,7 +27,7 @@ import { get } from 'src/dom/DomUtil';
  * ```
  */
 
-export class Events = {
+export let Events = {
     /* @method on(type: String, fn: Function, context?: Object): this
 	 * Adds a listener function (`fn`) to a particular event type of the object. You can optionally specify the context of the listener (object the this keyword will point to). You can also pass several space-separated types (e.g. `'click dblclick'`).
 	 *
@@ -81,13 +81,15 @@ Consider using `Record<string, unknown>` instead, as it allows you to more easil
     ): Record<string, unknown> {
         if (!types) {
             // clear all listeners if called without arguments
-            delete this._events
-        } else if (typeof types === 'object') {
+            delete this._events;
+
+        } else if (typeof types === typeof 'Record<string, unknown>') {
             for (const type in types) {
                 this._off(type, types[type], fn)
             }
         } else {
-            types = Util.splitWords(types)
+
+            types = Util.splitWords(types);
 
             for (const i in types.length) {
                 this._off(types[i], fn, context)
@@ -103,19 +105,19 @@ Consider using `Record<string, unknown>` instead, as it allows you to more easil
         fn: Record<string, unknown>,
         context: Record<string, unknown>
     ): Record<string, unknown> {
-        this._events = this._events || {}
+        this._events = this._events || {};
 
         /* get/init listeners for type */
-        const typeListeners = this._events[type]
+        const typeListeners = this._events[type];
 
         if (!typeListeners) {
             typeListeners = []
-            this._events[type] = typeListeners
+            this._events[type] = typeListeners;
         }
 
         if (context === this) {
             // Less memory footprint.
-            context = undefined
+            context = undefined;
         }
         const newListener = { fn: fn, ctx: context },
             listeners = typeListeners
@@ -188,9 +190,9 @@ Consider using `Record<string, unknown>` instead, as it allows you to more easil
         type: Record<string, unknown>,
         data: Record<string, unknown>,
         propagate: Record<string, unknown>
-    ): Record<string, unknown> {
+    ): boolean | Record<string, unknown> {
         if (!this.listens(type, propagate)) {
-            return this
+            return this;
         }
 
         const event = Util.extend({}, data, {
@@ -209,16 +211,16 @@ Consider using `Record<string, unknown>` instead, as it allows you to more easil
                     l.fn.call(l.ctx || this, event)
                 }
 
-                this._firingCount--
+                this._firingCount--;
             }
         }
 
         if (propagate) {
             // propagate the event to parents (set with addEventParent)
-            this._propagateEvent(event)
+            this._propagateEvent(event);
         }
 
-        return this
+        return this;
     },
 
     // @method listens(type: String): Boolean
@@ -241,7 +243,7 @@ Consider using `Record<string, unknown>` instead, as it allows you to more easil
                 }
             }
         }
-        return false
+        return false;
     },
 
     // @method once(…): this

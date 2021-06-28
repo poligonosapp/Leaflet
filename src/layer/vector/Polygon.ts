@@ -109,7 +109,7 @@ export const Polygon = Polyline.extend({
 		return result;
 	},
 
-	_setLatLngs: function (latlngs) {
+	_setLatLngs: function (latlngs:typeof LatLng):typeof Polyline {
 		Polyline.prototype._setLatLngs.call(this, latlngs);
 		if (LineUtil.isFlat(this._latlngs)) {
 			this._latlngs = [this._latlngs];

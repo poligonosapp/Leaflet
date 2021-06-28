@@ -10,7 +10,8 @@ import * as Util from '../../core/Util';
  * overlays (Polygon, Polyline, Circle). Do not use it directly. Extends `Layer`.
  */
 
-export const Path = Layer.extend({
+// @ts-ignore
+export let Path = Layer.extend({
 
 	// @section
 	// @aka Path options
@@ -92,7 +93,7 @@ export const Path = Layer.extend({
 
 	// @method redraw(): this
 	// Redraws the layer. Sometimes useful after you changed the coordinates that the path uses.
-	redraw: function () {
+	redraw: function ():typeof Layer{
 		if (this._map) {
 			this._renderer._updatePath(this);
 		}

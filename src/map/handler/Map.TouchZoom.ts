@@ -29,6 +29,7 @@ Map.mergeOptions({
 export const TouchZoom = Handler.extend({
 	addHooks: function () {
 		DomUtil.addClass(this._map._container, 'leaflet-touch-zoom');
+		//addListener
 		DomEvent.on(this._map._container, 'touchstart', this._onTouchStart, this);
 	},
 

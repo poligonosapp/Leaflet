@@ -218,7 +218,7 @@ Point.prototype = {
 // @alternative
 // @factory L.point(coords: Object)
 // Expects a plain object of the form `{x: Number, y: Number}` instead.
-export function toPoint(x: number|[], y: number, round: number):Point|null|undefined {
+export function toPoint(x: typeof number| typeof [], y: typeof number, round: typeof number): typeof Point | typeof null | typeof undefined {
 	if (x instanceof number) {
 		return x;
 	}

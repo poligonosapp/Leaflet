@@ -1,3 +1,5 @@
+import {LayerGroup} from './LayerGroup';
+
 import {Evented} from '../core/Events';
 import {Map} from '../map/Map';
 import * as Util from '../core/Util';
@@ -27,7 +29,7 @@ import * as Util from '../core/Util';
  */
 
 
-export const Layer = Evented.extend({
+export let Layer = Evented.extend({
 
 	// Classes extending `L.Layer` will inherit the following options:
 	options: {
@@ -48,7 +50,7 @@ export const Layer = Evented.extend({
 	 * @method addTo(map: Map|LayerGroup): this
 	 * Adds the layer to the given map or layer group.
 	 */
-	addTo: function (map) {
+	addTo: function (map: Map|LayerGroup): Layer | Map | LayerGroup {
 		map.addLayer(this);
 		return this;
 	},
@@ -74,7 +76,7 @@ export const Layer = Evented.extend({
 
 	// @method getPane(name? : String): HTMLElement
 	// Returns the `HTMLElement` representing the named pane on the map. If `name` is omitted, returns the pane for this layer.
-	getPane: function (name) {
+	getPane: function (name:string):typeof HTMLElement {
 		return this._map.getPane(name ? (this.options[name] || name) : this.options.pane);
 	},
 

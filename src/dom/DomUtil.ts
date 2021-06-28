@@ -303,7 +303,7 @@ const _outlineElement, _outlineStyle;
 // of the element `el` invisible. Used internally by Leaflet to prevent
 // focusable elements from displaying an outline when the user performs a
 // drag interaction on them.
-export function preventOutline(element) {
+export function preventOutline(element:HTMLElement):boolean {
 	while (element.tabIndex === -1) {
 		element = element.parentNode;
 	}

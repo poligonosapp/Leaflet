@@ -1,4 +1,11 @@
-const gulp = require('gulp');
+const gulp = require("gulp");
+const ts = require("gulp-typescript");
+const tsProject = ts.createProject("tsconfig.json");
+gulp.task("default", function () {
+    return tsProject.src().pipe(tsProject()).js.pipe(gulp.dest("dist"));
+});
+
+// const gulp = require('gulp');
 const less = require('gulp-less');
 const babel = require('gulp-babel');
 const concat = require('gulp-concat');

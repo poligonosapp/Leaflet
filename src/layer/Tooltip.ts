@@ -29,7 +29,7 @@ import * as DomUtil from '../dom/DomUtil';
 
 
 // @namespace Tooltip
-export var Tooltip = DivOverlay.extend({
+export let Tooltip = DivOverlay.extend({
 
 	// @section
 	// @aka Tooltip options
@@ -370,7 +370,7 @@ Layer.include({
 
 	// @method isTooltipOpen(): boolean
 	// Returns `true` if the tooltip bound to this layer is currently open.
-	isTooltipOpen: function () {
+	isTooltipOpen: function ():boolean {
 		return this._tooltip.isOpen();
 	},
 
@@ -385,7 +385,7 @@ Layer.include({
 
 	// @method getTooltip(): Tooltip
 	// Returns the tooltip bound to this layer.
-	getTooltip: function () {
+	getTooltip: function ():typeof Tooltip {
 		return this._tooltip;
 	},
 

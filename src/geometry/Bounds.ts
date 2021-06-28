@@ -25,9 +25,11 @@ import {Point, toPoint} from './Point';
  * can't be added to it with the `include` function.
  */
 
-export function Bounds(a:number, b:number):[] {
+export function Bounds(a:number, b:number):[]|void|null {
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	let min:Point;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	let max:Point;
 
 	if (!a) { return; }
@@ -107,20 +109,30 @@ Bounds.prototype = {
 	// @alternative
 	// @method contains(point: Point): Boolean
 	// Returns `true` if the rectangle contains the given point.
-	contains: function (obj:number):boolean {
+
+	contains: function (obj:number|typeof []|typeof Point| typeof Point[] | typeof Bounds| typeof []): boolean {
+
 		const min, max;
 
-		if (typeof obj[0] === 'number' || obj instanceof Point) {
+		if (typeof obj[0] === typeof 'number' || obj instanceof Point) {
+
 			obj = toPoint(obj);
+
 		} else {
+
 			obj = toBounds(obj);
+
 		}
 
 		if (obj instanceof Bounds) {
+
 			min = obj.min;
 			max = obj.max;
+
 		} else {
+
 			min = max = obj;
+
 		}
 
 		return (min.x >= this.min.x) &&
@@ -161,7 +173,7 @@ Bounds.prototype = {
 		return xOverlaps && yOverlaps;
 	},
 
-	isValid: function () {
+	isValid: function ():boolean {
 		return !!(this.min && this.max);
 	}
 };

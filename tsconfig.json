@@ -4,7 +4,7 @@
   "exclude": ["node_modules"],
   "include": [
     "src/**/*",
-    "gulpfile.ts",
+    "./gulpfile.ts",
     "./*.tsconfig.eslint.json",
     "docs/**/*ts"
   ],

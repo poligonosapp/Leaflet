@@ -21,7 +21,7 @@ Map.mergeOptions({
 });
 
 export const BoxZoom = Handler.extend({
-	initialize: function (map) {
+	initialize: function (map:Map) {
 		this._map = map;
 		this._container = map._container;
 		this._pane = map._panes.overlayPane;

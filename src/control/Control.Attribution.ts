@@ -30,7 +30,7 @@ export const Attribution = Control.extend({
 		this._attributions = {};
 	},
 
-	onAdd: function (map) {
+	onAdd: function (map:Map): HTMLElement {
 		map.attributionControl = this;
 		this._container = DomUtil.create('div', 'leaflet-control-attribution');
 		DomEvent.disableClickPropagation(this._container);

@@ -4,13 +4,20 @@ import {GeoJSON} from './layer';
 
 import {Polygon} from './dist/out-tsc/src/layer/vector/Polygon';
 
+// const polygonsFile = Record<string, unknown> require('./polygons.geojson')
+
+function newFunction(): null | Polygon[] {
+	return require('./polygons.geojson');
+}
+
+// @ts-ignore
 const PoligonosAppDemoClass = L.Class.extend({
 
 	// A property with initial value = 42
-	myDemoProperty: (typeof Polygon[])require('./polygons.geojson'),
+	myDemoProperty: newFunction(),
 
 	// A method
-	myDemoMethod: function() {
+	myDemoMethod: function(): null | Polygon[] {
 
 		// const s = new Server();
 
@@ -55,7 +62,7 @@ const MyBoxClass = L.Class.extend({
 		height: 1
 	},
 
-	initialize: function(name, options) {
+	initialize: function(name : string, options : []) {
 		this.name = name;
 		L.setOptions(this, options);
 	}

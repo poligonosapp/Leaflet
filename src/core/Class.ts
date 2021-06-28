@@ -10,6 +10,9 @@ import {GeoJSON} from '../layer';
 
 // Class.prototype._method = function (){}
 
+//export interface IClass{}
+//export interface IPolygonosApp{}
+
 export function Class(){}
 
 Class.extend = function (props:typeof Class) {
