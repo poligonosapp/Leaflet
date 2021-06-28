@@ -1,3 +1,4 @@
+import Map from './dist/out-tsc/src/map/Map';
 
 import {Control} from './Control';
 import * as DomUtil from '../dom/DomUtil';
@@ -38,7 +39,7 @@ export const Scale = Control.extend({
 		// If `true`, the control is updated on [`moveend`](#map-moveend), otherwise it's always up-to-date (updated on [`move`](#map-move)).
 	},
 
-	onAdd: function (map:Map) {
+	onAdd: function (map:Map): typeof HTMLElement {
 		const className = 'leaflet-control-scale',
 		    container = DomUtil.create('div', className),
 		    options = this.options;

@@ -6,6 +6,8 @@
 
 // @function extend(dest: Object, src?: Object): Object
 // Merges the properties of the `src` object (or multiple objects) into `dest` object and returns the latter. Has an `L.extend` shortcut.
+import {fn} from '@angular/compiler/src/output/output_ast';
+
 export function extend(dest: Record<string, number>[]): Record<string, number>[] {
 	return dest;
 }
@@ -17,7 +19,7 @@ export const create = Object.create;
 // @function bind(fn: Function, …): Function
 // Returns a new function bound to the arguments passed, like [Function.prototype.bind](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Function/bind).
 // Has a `L.bind()` shortcut.
-export function bind(fn, obj) {
+export function bind(fn: typeof Record<string,unknown>[] , obj: typeof Record<string,unknown>[]) {
 	const slice = Array.prototype.slice;
 
 	if (fn.bind) {

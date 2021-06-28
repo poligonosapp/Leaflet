@@ -6,7 +6,7 @@ public class ClassImpl extends Class{
 		super();
 	} // end constructor
 
-Class.extends = function (props) {
+Class.extends = function (props: typeof Array | typeof class | typeof Record<string,unknown>[]) {
 
 	// @function extend(props: Object): Function
 	// [Extends the current class](#class-inheritance) given the properties to be included.
