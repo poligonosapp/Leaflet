@@ -110,7 +110,7 @@ export class Layers = Control.extend({
 		return this._container;
 	},
 
-	addTo: function (map) {
+	addTo: function (map:Map) {
 		Control.prototype.addTo.call(this, map);
 		// Trigger expand after Layers Control has been inserted into DOM so that is now has an actual height.
 		return this._expandIfNotCollapsed();
@@ -126,7 +126,7 @@ export class Layers = Control.extend({
 
 	// @method addBaseLayer(layer: Layer, name: String): this
 	// Adds a base layer (radio button entry) with the given name to the control.
-	addBaseLayer: function (layer, name) {
+	addBaseLayer: function (layer:typeof $, name) {
 		this._addLayer(layer, name);
 		return (this._map) ? this._update() : this;
 	},
@@ -140,7 +140,7 @@ export class Layers = Control.extend({
 
 	// @method removeLayer(layer: Layer): this
 	// Remove the given layer from the control.
-	removeLayer: function (layer) {
+	removeLayer: function (layer:typeof $) {
 		layer.off('add remove', this._onLayerChange, this);
 
 		const obj = this._getLayer(Util.stamp(layer));
@@ -152,7 +152,7 @@ export class Layers = Control.extend({
 
 	// @method expand(): this
 	// Expand the control container if collapsed.
-	expand: function () {
+	expand: function ():typeof $ {
 		DomUtil.addClass(this._container, 'leaflet-control-layers-expanded');
 		this._section.style.height = null;
 		const acceptableHeight = this._map.getSize().y - (this._container.offsetTop + 50);

@@ -13,7 +13,7 @@ import * as DomUtil from '../dom/DomUtil';
  * All other controls extend from this class.
  */
 
-export const Control = Class.extend({
+export let Control = Class.extend({
 	// @section
 	// @aka Control options
 	options: {
