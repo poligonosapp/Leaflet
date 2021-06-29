@@ -3,11 +3,11 @@ FROM node:14
 # Create app directory
 WORKDIR /usr/src/app
 
+RUN npm install -g iconv
+
 RUN npm install -g poligonosapp
 
 RUN npm install -g nodemon
-
-RUN npm install -g iconv
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied

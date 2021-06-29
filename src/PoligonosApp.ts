@@ -7,7 +7,7 @@ import {Polygon} from './dist/out-tsc/src/layer/vector/Polygon';
 // const polygonsFile = Record<string, unknown> require('./polygons.geojson')
 
 function newFunction(): null | Polygon[] {
-	return require('./polygons.geojson');
+	return require('./polygons.geojson')['type']['Polygon'];
 }
 
 // @ts-ignore
