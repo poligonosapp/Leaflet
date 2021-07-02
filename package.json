@@ -133,9 +133,13 @@
     "keywords": [
         "gis",
         "map",
+        "leaflet",
+        "plugin",
+        "css",
         "typescript",
         "patch",
-        "port"
+        "port",
+        "snyk"
     ],
     "license": "BSD-2-Clause",
     "dependencies": {
