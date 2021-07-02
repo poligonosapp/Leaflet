@@ -1,13 +1,45 @@
-import {Server} from './Server';
+// import {Server} from './Server';
 
-import {GeoJSON} from './layer';
+// const nodemon = require('nodemon');// eslint
+
+// import {GeoJSON} from './layer';
 
 import {Polygon} from './dist/out-tsc/src/layer/vector/Polygon';
 
 // const polygonsFile = Record<string, unknown> require('./polygons.geojson')
 
 function newFunction(): null | Polygon[] {
-	return require('./polygons.geojson')['type']['Polygon'];
+
+	let polygons = null;
+
+	try {
+			const vetor:typeof 'GeoJSON' = (typeof 'GeoJSON') require('./polygons.geojson');
+	
+	for (let i in vetor.length) {
+
+		if (vetor[i]['type'] === 'Polygon') {
+			
+			polygons[i] = vetor[i]['type'];
+			
+		}
+
+	}
+	} catch (ex) {
+
+		// nodemon('nodemon require polygons fail');
+		
+		console.log(' require polygons.geojson fail ');
+
+		return null;
+		
+	} finally {
+
+		console.log('nodemon require polygons end');
+
+		// nodemon('nodemon require polygons end'); // eslint nodemon
+	}
+
+	return polygons;
 }
 
 // @ts-ignore

@@ -3,6 +3,8 @@
   "extends": "@tsconfig/node14/tsconfig.json",
   "exclude": ["node_modules"],
   "include": [
+    "./dist/out-tsc/src/layer/GeoJSON",
+    "./dist/out-tsc/src/layer/vector/Polygon",
     "src/**/*",
     "./gulpfile.ts",
     "./*.tsconfig.eslint.json",

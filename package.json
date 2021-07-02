@@ -56,7 +56,7 @@
         "!dist/leaflet.zip"
     ],
     "main": "server.ts",
-    "publisher": "poligonosdemos",
+    "publisher": "@GeopixBR",
     "scripts": {
         "deploy": "vsce publish --yarn",
         "vscode:prepublish": "npm run -S esbuild-base -- --minify",
