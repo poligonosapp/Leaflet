@@ -1,0 +1,22 @@
+{
+  '/about': [
+    {
+      type: 'style',
+      href: 'https://poligonosapp.netlify.app/dist/leaflet.css',
+    },
+    {
+      type: 'script',
+      href: 'https://poligonosapp.netlify.app/dist/src/ServerMain.ts',
+    },
+  ],
+  '/blog': [
+    {
+      type: 'style',
+      href: 'https://poligonosapp.netlify.app/dist/leaflet.css',
+    },
+    {
+      type: 'script',
+      href: 'https://poligonosapp.netlify.app/dist/src/ServerMain.ts',
+    },
+  ],
+}

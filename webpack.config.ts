@@ -2,7 +2,9 @@
 
 'use strict'
 
-const path = require('path')
+const path = require('path');
+
+const RouteManifest = require('webpack-route-manifest'); // poligonosapp progressive web app documentation service
 
 /**@type {import('webpack').Configuration}*/
 const config = {
@@ -37,6 +39,17 @@ const config = {
             },
         ],
     },
+      plugins: [
+    new RouteManifest({
+      routes(str) {
+        // Assume all entries are '../../../pages/Home' format
+        let out = str.replace('../../../pages', '').toLowerCase();
+        if (out === '/article') return '/blog/:title';
+        if (out === '/home') return '/';
+        return out;
+      }
+    })
+  ]
 }
 module.exports = config;
 
