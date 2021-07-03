@@ -1,3 +1,7 @@
+# PoligonosApp leaflet plugin
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/79ebda52-270e-4e51-a74c-af368254d343/deploy-status)](https://app.netlify.com/sites/poligonosapp/deploys)
+
 <img width="600" src="https://rawgit.com/Leaflet/Leaflet/master/src/images/logo.svg" alt="Leaflet" />
 
 Leaflet is the leading open-source JavaScript library for **mobile-friendly interactive maps**.
