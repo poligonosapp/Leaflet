@@ -1,4 +1,7 @@
 {
+  "parserOptions": {
+  "project": "./tsconfig.eslint.json"
+},
   "rules": {
     "quotes": 0,
     "no-console": 0

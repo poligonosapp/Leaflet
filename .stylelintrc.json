@@ -1,0 +1,45 @@
+{
+    "extends": ["stylelint-config-standard"],
+    "rules": {
+        "color-no-invalid-hex": true,
+        "selector-pseudo-class-no-unknown": [
+            true,
+            {
+                "ignorePseudoClasses": ["global"]
+            }
+        ],
+        "block-no-empty": null,
+        "comment-empty-line-before": [
+            "always",
+            {
+                "ignore": ["stylelint-commands", "after-comment"]
+            }
+        ],
+        "max-empty-lines": 2,
+        "unit-allowed-list": ["em", "rem", "%", "s"],
+        "color-hex-case": [
+            "lower",
+            {
+                "message": "Lowercase letters are easier to distinguish from numbers"
+            }
+        ],
+        "indentation": [
+            2,
+            {
+                "except": ["block", "value"],
+                "message": "Please use 2 spaces for indentation.",
+                "severity": "warning",
+                "reportDisables": true
+            }
+        ]
+    },
+    "reportNeedlessDisables": [true, { "except": ["selector-max-type"] }],
+    "reportDescriptionlessDisables": [
+        false,
+        {
+            "except": ["color-hex-case"],
+            "severity": "warning"
+        }
+    ]
+}
+

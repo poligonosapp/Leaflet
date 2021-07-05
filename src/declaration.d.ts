@@ -7,9 +7,9 @@ declare module "*.tsx";
 declare module './dist/out-tsc/src/layer/vector/Polygon';
 declare module './dist/out-tsc/src/layer/GeoJSON';
 
+import './src/util/utfserver';
 import 'iconv';
-export  'iconv';
-declare module 'iconv';
+
 
 import 'typescript-eslint/no-unsafe-call';
 declare module 'typescript-eslint/no-unsafe-call';
@@ -17,5 +17,5 @@ declare module 'typescript-eslint/no-unsafe-call';
 import 'typescript-eslint';
 import '@rollup/plugin-json';
 import '@typescript-eslint/parser';
-import * as admin from 'firebase-admin';
+import 'firebase-admin';
 

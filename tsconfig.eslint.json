@@ -5,6 +5,7 @@
   "no-any": true,
   "no-unsafe-any": true,
   "include": [
+    "gulpfile.ts",
     "dist/**/*ts",
     "build/**/*ts",
     "docs/**/*ts",
