@@ -4,6 +4,9 @@
 it('should set encoding programatically', async function () {
 
     //a
+    
+    // jest.mock('./node-iconv');
+
     // const iconv = await require('iconv');
     let data = '';
     process.stdin.setEncoding('utf8');

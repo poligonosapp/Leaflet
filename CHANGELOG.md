@@ -3,11 +3,14 @@ Leaflet Changelog
 
 (all changes without author notice are by [@mourner](https://github.com/mourner))
 
+## 1.8.8-alpha (2021-07-09)
+nodejs stream with geojson format encoding exception handling
+
 
 ## 1.7.1 (2021-06-10)
 docker build . -t poligonosapp/leaflet
 
-Server.ts // require('dist/leaflet-src.js');
+Server.ts // require('dist/leaflet-src.ts');
 with typescript
 with snyk
 
