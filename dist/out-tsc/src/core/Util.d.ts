@@ -1,0 +1,24 @@
+export declare function extend(dest: any): any;
+export declare const create: {
+    (o: object | null): any;
+    (o: object | null, properties: PropertyDescriptorMap & ThisType<any>): any;
+};
+export declare function bind(fn: any, obj: any): any;
+export declare const lastId = 0;
+export declare function stamp(obj: any): any;
+export declare function throttle(fn: any, time: any, context: any): any;
+export declare function wrapNum(x: any, range: any, includeMax: any): any;
+export declare function falseFn(): boolean;
+export declare function formatNum(num: any, digits: any): number;
+export declare function trim(str: any): any;
+export declare function splitWords(str: any): any;
+export declare function setOptions(obj: any, options: any): any;
+export declare function getParamString(obj: any, existingUrl: any, uppercase: any): string;
+export declare function template(str: any, data: any): any;
+export declare const isArray: (arg: any) => arg is any[];
+export declare function indexOf(array: any, el: any): string | -1;
+export declare const emptyImageUrl = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+export declare const requestFn: ((callback: FrameRequestCallback) => number) & typeof requestAnimationFrame;
+export declare const cancelFn: ((handle: number) => void) & typeof cancelAnimationFrame;
+export declare function requestAnimFrame(fn: any, context: any, immediate: any): number | undefined;
+export declare function cancelAnimFrame(id: any): void;

@@ -1,0 +1,10 @@
+export declare var GeoJSON: any;
+export declare function geometryToLayer(geojson: any, options: any): any;
+export declare function coordsToLatLng(coords: any): any;
+export declare function coordsToLatLngs(coords: any, levelsDeep: any, _coordsToLatLng: any): any;
+export declare function latLngToCoords(latlng: any, precision: any): number[];
+export declare function latLngsToCoords(latlngs: any, levelsDeep: any, closed: any, precision: any): any;
+export declare function getFeature(layer: any, newGeometry: any): any;
+export declare function asFeature(geojson: any): any;
+export declare function geoJSON(geojson: any, options: any): any;
+export declare var geoJson: typeof geoJSON;

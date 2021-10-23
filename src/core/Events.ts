@@ -1,0 +1,330 @@
+import { Class } from "./Class";
+import * as Util from './Util';
+import { get } from 'src/dom/DomUtil';
+
+/*
+ * @class Evented
+ * @aka L.Evented
+ * @inherits Class
+ *
+ * A set of methods shared between event-powered classes (like `Map` and `Marker`). Generally, events allow you to execute some function when something happens with an object (e.g. the user clicks on the map, causing the map to fire `'click'` event).
+ *
+ * @example
+ *
+ * ```tsc
+ * map.on('click', function(e) {
+ * 	alert(e.latlng);
+ * } );
+ * ```
+ *
+ * Leaflet deals with event listeners by reference, so if you want to add a listener and then remove it, define it as a function:
+ *
+ * ```tsc
+ * function onClick(e) { ... }
+ *
+ * map.on('click', onClick);
+ * map.off('click', onClick);
+ * ```
+ */
+
+export let Events = {
+    /* @method on(type: String, fn: Function, context?: Object): this
+	 * Adds a listener function (`fn`) to a particular event type of the object. You can optionally specify the context of the listener (object the this keyword will point to). You can also pass several space-separated types (e.g. `'click dblclick'`).
+	 *
+	 * @alternative
+	 * @method on(eventMap: Object): this
+	 * Adds a set of type/listener pairs, e.g. `{click: onClick, mousemove: onMouseMove}`
+	 *
+	 * Don't use `object` as a type. The `object` type is currently hard to use ([see this issue](https://github.com/microsoft/TypeScript/issues/21732)).
+Consider using `Record<string, unknown>` instead, as it allows you to more easily inspect and use the keys.eslint@typescript-eslint/ban-types)
+	 */
+    on: function (
+        types: Record<string, number>[],
+        fn: Record<string, unknown>,
+        context: Record<string, unknown>
+    ): Record<string, unknown> {
+        // types can be a map of types/handlers
+        if (typeof types === typeof 'Record<string, number>') {
+            for (const type in types) {
+                // we don't process space-separated events here for performance;
+                // it's a hot path since Layer uses the on(obj) syntax
+				this._on(type, types[type], fn);
+            }
+        } else {
+            // types can be a string of space-separated words
+			// types = Util.splitWords(types.toString());
+
+			for (const i in types.length) {
+				types[i] = Util.splitWords(types.toString())
+				this._on(types[i], fn, context);
+            }
+        }
+
+        return this
+    },
+
+    /* @method off(type: String, fn?: Function, context?: Object): this
+     * Removes a previously added listener function. If no function is specified, it will remove all the listeners of that particular event from the object. Note that if you passed a custom context to `on`, you must pass the same context to `off` in order to remove the listener.
+     *
+     * @alternative
+     * @method off(eventMap: Object): this
+     * Removes a set of type/listener pairs.
+     *
+     * @alternative
+     * @method off: this
+     * Removes all listeners to all events on the object. This includes implicitly attached events.
+     */
+    off: function (
+        types: Record<string, unknown>,
+        fn: Record<string, unknown>,
+        context: Record<string, unknown>
+    ): Record<string, unknown> {
+        if (!types) {
+            // clear all listeners if called without arguments
+            delete this._events;
+
+        } else if (typeof types === typeof 'Record<string, unknown>') {
+            for (const type in types) {
+                this._off(type, types[type], fn)
+            }
+        } else {
+
+            types = Util.splitWords(types);
+
+            for (const i in types.length) {
+                this._off(types[i], fn, context)
+            }
+        }
+
+        return this
+    },
+
+    // attach listener (without syntactic sugar now)
+    _on: function (
+        type: Record<string, unknown>,
+        fn: Record<string, unknown>,
+        context: Record<string, unknown>
+    ): Record<string, unknown> {
+        this._events = this._events || {};
+
+        /* get/init listeners for type */
+        const typeListeners = this._events[type];
+
+        if (!typeListeners) {
+            typeListeners = []
+            this._events[type] = typeListeners;
+        }
+
+        if (context === this) {
+            // Less memory footprint.
+            context = undefined;
+        }
+        const newListener = { fn: fn, ctx: context },
+            listeners = typeListeners
+
+        // check if fn already there
+        for (const i = 0, len = listeners.length; i < len; i++) {
+            if (listeners[i].fn === fn && listeners[i].ctx === context) {
+                return
+            }
+        }
+
+        listeners.push(newListener)
+    },
+
+    _off: function (type, fn, context) {
+        const listeners, i, len
+
+        if (!this._events) {
+            return
+        }
+
+        listeners = this._events[type]
+
+        if (!listeners) {
+            return
+        }
+
+        if (!fn) {
+            // Set all removed listeners to noop so they are not called if remove happens in fire
+            for (const i in listeners.length) {
+                listeners[i].fn = Util.falseFn
+            }
+            // clear all listeners for a type if function isn't specified
+            delete this._events[type]
+            return
+        }
+
+        if (context === this) {
+            context = undefined
+        }
+
+        if (listeners) {
+            // find fn and remove it
+            for (const i in listeners.length) {
+                const l = listeners[i]
+                if (l.ctx !== context) {
+                    continue
+                }
+                if (l.fn === fn) {
+                    // set the removed listener to noop so that's not called if remove happens in fire
+                    l.fn = Util.falseFn
+
+                    if (this._firingCount) {
+                        /* copy array in case events are being fired */
+                        this._events[type] = listeners = listeners.slice()
+                    }
+                    listeners.splice(i, 1)
+
+                    return
+                }
+            }
+        }
+    },
+
+    // @method fire(type: String, data?: Object, propagate?: Boolean): this
+    // Fires an event of the specified type. You can optionally provide a data
+    // object — the first argument of the listener function will contain its
+    // properties. The event can optionally be propagated to event parents.
+    fire: function (
+        type: Record<string, unknown>,
+        data: Record<string, unknown>,
+        propagate: Record<string, unknown>
+    ): boolean | Record<string, unknown> {
+        if (!this.listens(type, propagate)) {
+            return this;
+        }
+
+        const event = Util.extend({}, data, {
+            type: type,
+            target: this,
+            sourceTarget: (data && data.sourceTarget) || this,
+        })
+
+        if (this._events) {
+            const listeners = this._events[type]
+
+            if (listeners) {
+                this._firingCount = this._firingCount + 1 || 1
+                for (const i = 0, len = listeners.length; i < len; i++) {
+                    const l = listeners[i]
+                    l.fn.call(l.ctx || this, event)
+                }
+
+                this._firingCount--;
+            }
+        }
+
+        if (propagate) {
+            // propagate the event to parents (set with addEventParent)
+            this._propagateEvent(event);
+        }
+
+        return this;
+    },
+
+    // @method listens(type: String): Boolean
+    // Returns `true` if a particular event type has any listeners attached to it.
+    listens: function (
+        type: Record<string, number>,
+        propagate: Record<string, number>
+    ): Record<string, number> {
+        const listeners = this._events && this._events[type]
+
+        if (listeners && listeners.length) {
+            return true
+        }
+
+        if (propagate) {
+            // also check parents for listeners if event propagates
+            for (const id in this._eventParents) {
+                if (this._eventParents[id].listens(type, propagate)) {
+                    return true
+                }
+            }
+        }
+        return false;
+    },
+
+    // @method once(…): this
+    // Behaves as [`on(…)`](#evented-on), except the listener will only get fired once and then removed.
+    once: function (
+        types: Record<string, number>,
+        fn: Record<string, number>,
+        context: Record<string, number>
+    ): Record<string, number> {
+        //if (typeof types === typeof Record<string, number>) {
+        for (const type in types) {
+            this.once(type, types[type], fn)
+        }
+        return this
+        //}
+
+        const handler = Util.bind(function () {
+            this.off(types, fn, context).off(types, handler, context)
+        }, this)
+
+        // add a listener that's executed once and removed after that
+        return this.on(types, fn, context).on(types, handler, context)
+    },
+
+    // @method addEventParent(obj: Evented): this
+    // Adds an event parent - an `Evented` that will receive propagated events
+    addEventParent: function (obj: Record<string, unknown>) {
+        this._eventParents = this._eventParents || {}
+        this._eventParents[Util.stamp(obj)] = obj
+        return this
+    },
+
+    // @method removeEventParent(obj: Evented): this
+    // Removes an event parent, so it will stop receiving propagated events
+    removeEventParent: function (obj: Record<string, unknown>) {
+        if (this._eventParents) {
+            delete this._eventParents[Util.stamp(obj)]
+        }
+        return this
+    },
+
+    _propagateEvent: function (e) {
+        for (const id in this._eventParents) {
+            this._eventParents[id].fire(
+                e.type,
+                Util.extend(
+                    {
+                        layer: e.target,
+                        propagatedFrom: e.target,
+                    },
+                    e
+                ),
+                true
+            )
+        }
+    },
+}
+
+// aliases; we should ditch those eventually
+
+// @method addEventListener(…): this
+// Alias to [`on(…)`](#evented-on)
+Events.addEventListener = Events.on;
+
+// @method removeEventListener(…): this
+// Alias to [`off(…)`](#evented-off)
+
+// @method clearAllEventListeners(…): this
+// Alias to [`off()`](#evented-off)
+Events.removeEventListener = Events.clearAllEventListeners = Events.off;
+
+// @method addOneTimeEventListener(…): this
+// Alias to [`once(…)`](#evented-once)
+Events.addOneTimeEventListener = Events.once;
+
+// @method fireEvent(…): this
+// Alias to [`fire(…)`](#evented-fire)
+Events.fireEvent = Events.fire;
+
+// @method hasEventListeners(…): Boolean
+// Alias to [`listens(…)`](#evented-listens)
+Events.hasEventListeners = Events.listens;
+
+export class Evented = Class.extend(Events);

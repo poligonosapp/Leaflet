@@ -1,11 +1,29 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "compileOnSave": false,
+  "compileOnSave": true,
+  "extends": "@tsconfig/node14/tsconfig.json",
+  "exclude": ["node_modules"],
+  "include": [
+    "src/**/*",
+    "./gulpfile.ts",
+    "./*.tsconfig.eslint.json",
+    "docs/**/*ts"
+  ],
   "compilerOptions": {
+    "paths": {
+      "jquery": ["node_modules/jquery/dist/jquery"],
+      "*": ["*", "generated/*"]
+    },
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "noImplicitThis": true,
     "baseUrl": "./",
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
-    "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
